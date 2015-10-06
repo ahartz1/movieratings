@@ -1,10 +1,8 @@
-.direnv
-.envrc
 .cache
+.direnv
 .DS_Store
-test/
-data/
+.envrc
 lib/__pycache__/
+ml-1m/
 movieratings/movieratings/__pycache__/
 movieratings/db.sqlite3
-ml-1m/
