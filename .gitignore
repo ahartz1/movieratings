@@ -4,5 +4,7 @@
 .envrc
 lib/__pycache__/
 ml-1m/
+movieratings/lensview/__pycache__/
+movieratings/lensview/migrations/__pycache__/
 movieratings/movieratings/__pycache__/
 movieratings/db.sqlite3
