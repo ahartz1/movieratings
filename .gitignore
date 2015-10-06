@@ -1,0 +1,10 @@
+.direnv
+.envrc
+.cache
+.DS_Store
+.ipynb_checkpoints/
+test/
+data/
+lib/__pycache__/
+__pycache__/
+in_class_review.ipynb
