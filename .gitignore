@@ -2,9 +2,9 @@
 .envrc
 .cache
 .DS_Store
-.ipynb_checkpoints/
 test/
 data/
 lib/__pycache__/
-__pycache__/
-in_class_review.ipynb
+movieratings/movieratings/__pycache__/
+movieratings/db.sqlite3
+ml-1m/
