@@ -3,7 +3,7 @@ from .models import Rater, Movie, Rating
 
 
 class RaterAdmin(admin.ModelAdmin):
-    list_display = ['user']
+    list_display = ['id', 'age', 'gender']
 
 # Register your models here.
 admin.site.register(Rater)
