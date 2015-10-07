@@ -4,29 +4,44 @@ from django.db import models
 # Create your models here.
 class Rater(models.Model):
     age = models.IntegerField()
-    gender = models.CharField(max_length=10)
+
+    MALE = 'M'
+    FEMALE = 'F'
+    OTHER = 'O'
+    X = 'X'
+
+    # Maps choice to "readable" display for admin input
+    GENDER_CHOICES = (
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+        (OTHER, 'Other'),
+        (X, 'Did not answer'),
+    )
+
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
 
     def __str__(self):
-        return 'id={}, age={}, gender={}'.format(
-            self.id, self.age, self.gender)
+        return str(self.id)
 
-    # def movie_ratings(self):
-    #     return self.movie_set
+    def movie_ratings(self):
+        return self.rating_set.all()
 
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
 
     def __str__(self):
-        return 'id={}, title={}'.format(
-            self.id, self.title)
+        return self.title
+
+    def average_rating(self):
+        return self.rating_set.aggregate(models.Avg('stars'))['stars__avg']
 
 
 class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
-    stars = models.IntegerField()
+    stars = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return 'id={}, rater={}, stars={}, title={}'.format(
-            self.id, self.rater, self.stars, self.movie)
+        return '@{} {}* -> {})'.format(
+            self.rater, self.stars, self.movie)
