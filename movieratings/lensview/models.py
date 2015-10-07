@@ -44,7 +44,7 @@ class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
     stars = models.PositiveSmallIntegerField()
-    timestamp = models.DateTimeField()
+    timestamp = models.DateField()
 
     def __str__(self):
         return '@{} {}* -> {})'.format(
@@ -78,11 +78,8 @@ def load_ml_user_data():
 
             users.append(user)
 
-            with open('fixtures/users.json', 'w') as f:
-                f.write(json.dumps(users))
-
-        print(json.dumps(users, sort_keys=True, indent=4,
-                         separators=(', ', ': ')))
+        with open('lensview/fixtures/users.json', 'w') as f:
+            f.write(json.dumps(users))
 
 
 def load_ml_movie_data():
@@ -110,43 +107,47 @@ def load_ml_movie_data():
 
             movies.append(movie)
 
-            with open('lensview/fixtures/movies.json', 'w') as f:
-                f.write(json.dumps(movies))
+        with open('lensview/fixtures/movies.json', 'w') as f:
+            f.write(json.dumps(movies))
 
-        print(json.dumps(movies, sort_keys=True, indent=4,
-                         separators=(', ', ': ')))
 
-# def load_ml_rating_data():
-#     import csv
-#     import json
-#
-#     ratings = []
-#
-#     with open('ml-1m/movies.dat') as f:
-#
-#         rating = csv.DictReader([line.replace('::', '\t') for line in f],
-#                                 fieldnames='MovieID::Title::Genres'
-#                                 .split('::'),
-#                                 delimiter='\t')
-#
-#         for row in reader:
-#             movie = {
-#                 'fields': {
-#                     'title': row['Title'],
-#                     'genre': row['Genres'],
-#                 },
-#                 'model': 'lensview.Movie',
-#                 'pk': int(row['MovieID'])
-#             }
-#
-#             movies.append(movie)
-#
-#             with open('lensview/fixtures/movies.json', 'w') as f:
-#                 f.write(json.dumps(movies))
-#
-#         print(json.dumps(movies, sort_keys=True, indent=4,
-#                          separators=(', ', ': ')))
-# UserID::MovieID::Rating::Timestamp
+def load_ml_rating_data():
+    import csv
+    import json
 
+    ratings = []
+
+    with open('ml-1m/ratings.dat') as f:
+
+        reader = csv.DictReader([line.replace('::', '\t') for line in f],
+                                fieldnames='UserID::MovieID::Rating::Timestamp'
+                                .split('::'),
+                                delimiter='\t')
+
+        for row in reader:
+            rating = {
+                'fields': {
+                    'user': row['UserID'],
+                    'movie': row['MovieID'],
+                    'rating': row['Rating'],
+                },
+                'model': 'lensview.Rating',
+            }
+
+            ratings.append(rating)
+
+        with open('lensview/fixtures/ratings.json', 'w') as f:
+            f.write(json.dumps(ratings))
+
+
+def load_all_ml_data():
+    import csv
+    import json
+    print('Starting User Data Conversion to JSON.')
+    load_ml_user_data()
+    print('Starting Movie Data Conversion to JSON.')
+    load_ml_movie_data()
+    print('Starting Rating Data Conversion to JSON.')
+    load_ml_rating_data()
 
 #
