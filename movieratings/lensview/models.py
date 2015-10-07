@@ -7,18 +7,20 @@ class Rater(models.Model):
     gender = models.CharField(max_length=10)
 
     def __str__(self):
-        return 'id={}, age={}, gender={}'.format(
+        return 'Rater(id={}, age={}, gender={})'.format(
             self.id, self.age, self.gender)
 
     # def movie_ratings(self):
-    #     return self.movie_set
+    #     rating_sum = 0
+    #     for r in self.rating_set:
+    #
 
 
 class Movie(models.Model):
     title = models.CharField(max_length=255)
 
     def __str__(self):
-        return 'id={}, title={}'.format(
+        return 'Movie(id={}, title={})'.format(
             self.id, self.title)
 
 
@@ -28,5 +30,5 @@ class Rating(models.Model):
     stars = models.IntegerField()
 
     def __str__(self):
-        return 'id={}, rater={}, stars={}, title={}'.format(
+        return 'Rating(id={}, rater={}, stars={}, movie={})'.format(
             self.id, self.rater, self.stars, self.movie)
