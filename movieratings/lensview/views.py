@@ -35,7 +35,7 @@ def show_rater(request, rater_id):
     for rating in rater.rating_set.all():
         movie_ratings.append({
             'movie': rating.movie,
-            'stars': '\u2605' * rating.stars
+            'stars': '\u2605' * (rating.stars - 1)
         })
     return render(request,
                   'lensview/rater.html',
