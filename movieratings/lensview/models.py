@@ -44,7 +44,6 @@ class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
     stars = models.PositiveSmallIntegerField()
-    timestamp = models.DateField()
 
     def __str__(self):
         return '@{} {}* -> {})'.format(
@@ -127,9 +126,9 @@ def load_ml_rating_data():
         for row in reader:
             rating = {
                 'fields': {
-                    'user': row['UserID'],
+                    'rater': row['UserID'],
                     'movie': row['MovieID'],
-                    'rating': row['Rating'],
+                    'stars': row['Rating'],
                 },
                 'model': 'lensview.Rating',
             }
