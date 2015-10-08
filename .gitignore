@@ -2,9 +2,7 @@
 .direnv
 .DS_Store
 .envrc
-lib/__pycache__/
-ml-1m/
-movieratings/lensview/__pycache__/
-movieratings/lensview/migrations/__pycache__/
-movieratings/movieratings/__pycache__/
-movieratings/db.sqlite3
+movieratings/ml-1m/
+*__pycache__/
+*.sqlite3
+*.json
