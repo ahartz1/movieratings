@@ -31,10 +31,10 @@ $ python manage.py shell
 * **Running the site** requires more command line. Navigate to `movieratings/movieratings` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
 
 ### Movie Pages
-Located at `localhost/lv/movies/movie_id`, where `localhost` is the location of your django server and `movie_id` is the actual movie id in the database.
+Located at `localhost/movies/movie_id`, where `localhost` is the location of your django server and `movie_id` is the actual movie id in the database.
 
 ### Rater Pages
-Located at `localhost/lv/raters/rater_id`, where `localhost` is the location of your django server and `rater_id` is the actual movie id in the database.
+Located at `localhost/raters/rater_id`, where `localhost` is the location of your django server and `rater_id` is the actual movie id in the database.
 
 ### Top 20 Page
-Located at `localhost/lv/movies/top_20`, where `localhost` is the location of your django server.
+Located at `localhost/movies/top_20`, where `localhost` is the location of your django server.
