@@ -37,7 +37,9 @@ class Movie(models.Model):
         return self.title
 
     def average_rating(self):
-        return self.rating_set.aggregate(models.Avg('stars'))['stars__avg']
+        return self.rating_set.aggregate(
+            models.Avg('stars'))['stars__avg']
+    avg_rating = property(average_rating)
 
 
 class Rating(models.Model):
@@ -58,10 +60,11 @@ def load_ml_user_data():
 
     with open('ml-1m/users.dat') as f:
 
-        reader = csv.DictReader([line.replace('::', '\t') for line in f],
-                                fieldnames='UserID::Gender::Age::Occupation::'
-                                'Zip-code'.split('::'),
-                                delimiter='\t')
+        reader = csv.DictReader(
+            [line.replace('::', '\t') for line in f],
+            fieldnames='UserID::Gender::Age::Occupation::'
+            'Zip-code'.split('::'),
+            delimiter='\t')
 
         for row in reader:
             user = {
@@ -89,10 +92,11 @@ def load_ml_movie_data():
 
     with open('ml-1m/movies.dat', encoding='windows-1252') as f:
 
-        reader = csv.DictReader([line.replace('::', '\t') for line in f],
-                                fieldnames='MovieID::Title::Genres'
-                                .split('::'),
-                                delimiter='\t')
+        reader = csv.DictReader(
+            [line.replace('::', '\t') for line in f],
+            fieldnames='MovieID::Title::Genres'
+            .split('::'),
+            delimiter='\t')
 
         for row in reader:
             movie = {
@@ -118,10 +122,11 @@ def load_ml_rating_data():
 
     with open('ml-1m/ratings.dat') as f:
 
-        reader = csv.DictReader([line.replace('::', '\t') for line in f],
-                                fieldnames='UserID::MovieID::Rating::Timestamp'
-                                .split('::'),
-                                delimiter='\t')
+        reader = csv.DictReader(
+            [line.replace('::', '\t') for line in f],
+            fieldnames='UserID::MovieID::Rating::Timestamp'
+            .split('::'),
+            delimiter='\t')
 
         for row in reader:
             rating = {

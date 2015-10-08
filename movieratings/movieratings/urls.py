@@ -16,9 +16,8 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-import lensview.views as views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^movies/top_20', views.top_20),
+    url(r'^lv/', include('lensview.urls')),
 ]

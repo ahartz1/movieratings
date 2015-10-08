@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Rater #{{ rater.id }}</h2>
+    {% for rating in ratings %}
+    <p>
+      {{ rating.stars }} {{ rating.movie }}
+    </p>
+  {% endfor %}
+{% endblock %}

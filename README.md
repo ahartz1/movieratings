@@ -1,10 +1,10 @@
 # Django MovieLens 1M Database Website
 
-<!-- ### A Website to see Top Movies, Movie Info, and User Info from the MovieLens 1M Database
+### A Website to see Top Movies, Movie Info, and User Info from the MovieLens 1M Database
 
 * `localhost/top_20` shows the top 20 movies
-* `localhost/movies` shows all of the movies
-* `localhost/users` shows all of the users -->
+* `localhost/movies/movie_id` for each movie's page
+* `localhost/raters` for each rater's page
 
 ### System Requirements
 
@@ -30,9 +30,11 @@ $ python manage.py shell
 
 * **Running the site** requires more command line. Navigate to `movieratings/movieratings` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
 
-<!-- ### User Pages
-* **Recommended.** This mode will show you recommendations specific to your tastes by analyzing what others who have similar preferences have rated highly. The movies that you have already seen are filtered out. There is a menu system that allows you to select the number of results and the minimum number of overlapping movie ratings with other users from which to make the recommendations.
-* **Popular.** This mode will help you explore popular movies you haven't seen.
+### Movie Pages
+Located at `localhost/lv/movies/movie_id`, where `localhost` is the location of your django server and `movie_id` is the actual movie id in the database.
 
-### Top 20 Popular Movies
-This mode lets you explore movies based on user ratings. There is a menu system to allow you to specify the number of results and the minimum number of user ratings. -->
+### Rater Pages
+Located at `localhost/lv/raters/rater_id`, where `localhost` is the location of your django server and `rater_id` is the actual movie id in the database.
+
+### Top 20 Page
+Located at `localhost/lv/movies/top_20`, where `localhost` is the location of your django server.
