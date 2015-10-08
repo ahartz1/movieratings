@@ -4,17 +4,17 @@
 
 * `localhost/top_20` shows the top 20 movies
 * `localhost/movies/movie_id` for each movie's page
-* `localhost/raters` for each rater's page
+* `localhost/raters/rater_id` for each rater's page
 
 ### System Requirements
 
-* You will need to have **python&nbsp;3** installed on your machine or have access to a Python&nbsp;3 interpreter. See [Python's site](https://www.python.org/) for details.
+* You will need to have **Python&nbsp;3** installed on your machine or have access to a Python&nbsp;3 interpreter. See [Python's site](https://www.python.org/) for details.
 
 * Copy this repo to your computer; the below assumes you have kept the default folder name as `movieratings`.
 
 * You will need to make sure that you have a virtual environment running Python&nbsp;3 in the folder that you made in the above step. [See this site for details if you're not familiar.](http://docs.python-guide.org/en/latest/dev/virtualenvs/) **Complete this step before attempting the below.**
 
-* Using your favorite command line program (e.g., Terminal on Mac&nbsp;OS&nbsp;X), install the requirements file in your virtual environment: `pip install -r requirements.txt`.
+* Using your favorite command-line program (e.g., Terminal on Mac&nbsp;OS&nbsp;X), install the requirements file in your virtual environment: `pip install -r requirements.txt`.
 
 * You will need to download the [MovieLens 1M](http://files.grouplens.org/datasets/movielens/ml-1m.zip) dataset. Unzip the downloaded file and move the folder into `movieratings/movieratings` (the same directory as `manage.py`). It should be named `ml-1m`.
 
@@ -34,7 +34,7 @@ $ python manage.py shell
 Located at `localhost/lv/movies/movie_id`, where `localhost` is the location of your django server and `movie_id` is the actual movie id in the database.
 
 ### Rater Pages
-Located at `localhost/lv/raters/rater_id`, where `localhost` is the location of your django server and `rater_id` is the actual movie id in the database.
-
+Located at `localhost/lv/raters/rater_id`, where `localhost` is the location of your django server and `rater_id` is the actual rater id in the database.
+.
 ### Top 20 Page
 Located at `localhost/lv/movies/top_20`, where `localhost` is the location of your django server.
