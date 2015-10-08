@@ -1,16 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
   <h2>Rater #{{ rater.id }}</h2>
-    <div class='rater_info'>
-      <p>Age: {{ rater.age }}</p>
-      <p>Gender: {{ rater.gender }}</p>
-      <p>Occupation: {{ rater.occupation }}</p>
-      <p>Zipcode: {{ rater.zipcode }}</p>
-    </div>
-  {% for rating in ratings %}
-  <p>
+    <dl class='rater_info'>
+      <dt>Age</dt>
+      <dd>{{ rater.age }}</dd>
+      <dt>Gender</dt>
+      <dd>{{ rater.gender }}</dd>
+      <dt>Occupation</dt>
+      <dd>{{ rater.occupation }}</dd>
+      <dt>Zipcode</dt>
+      <dd>{{ rater.zipcode }}</dd>
+    </dl>
+    <ul>
+  {% for rating in movie_ratings %}
+  <li>
       <a href="{% url 'movie_detail' rating.movie.pk %}">{{ rating.movie }}</a>
-      {{ rating.stars }}&#9733;
-    </p>
+      – {{ rating.stars }}&#9733;
+    </li>
   {% endfor %}
+</ul>
 {% endblock %}

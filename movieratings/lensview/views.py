@@ -12,7 +12,7 @@ def top_20(request):
     # movies = list(Movie.objects.all())
     # movie_list = [[movie, movie.rating_set.average_rating()]
     #               for movie in movies]
-    # sorted_movie_list = sorted(movie_list,
+    # # sorted_movie_list = sorted(movie_list,
     #                            key=lambda m: m[1],
     #                            reversed=True
     #                            )[:20]
@@ -31,8 +31,14 @@ def show_movie(request, movie_id):
 
 def show_rater(request, rater_id):
     rater = Rater.objects.get(pk=rater_id)
-    ratings = rater.rating_set.all()
+    # ratings = rater.rating_set.all()
+    movie_ratings = []
+    for rating in rater.rating_set.all():
+        movie_ratings.append({
+            'movie': rating.movie,
+            'stars': '\u2605' * rating.stars
+        })
     return render(request,
                   'lensview/rater.html',
                   {'rater': rater,
-                   'ratings': ratings})
+                   'movie_ratings': movie_ratings})
