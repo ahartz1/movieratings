@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.db.models import Avg
+from django.db.models import Avg, Count
 # from django.http import HttpResponse
 # from .models import Rater, Movie, Rating
 from .models import Movie, Rater
@@ -7,7 +7,11 @@ from .models import Movie, Rater
 
 # Create your views here.
 def top_20(request):
-    movies = Movie.objects.annotate(Avg('rating__stars')) \
+
+    popular_movies = Movie.objects.annotate(num_ratings=Count('rating')) \
+        .filter(num_ratings__gte=50)
+
+    movies = popular_movies.annotate(Avg('rating__stars')) \
         .order_by('-rating__stars__avg')[:20]
 
     return render(request,
