@@ -3,7 +3,7 @@
   <h2>{{ movie.title }}</h2>
     {% for rating in ratings %}
     <p>
-      {{ rating.stars }} {{ rating.rater }}
+      {{ rating.stars }} <a href="{% url 'rater_detail' rating.rater.pk %}">{{ rating.rater }}</a>
     </p>
   {% endfor %}
 {% endblock %}

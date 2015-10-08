@@ -3,7 +3,7 @@
   <h2>Top 20 Movies</h2>
   {% for movie in movies %}
     <p>
-      {{ movie.title }}
+      <a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a> {{ movie.average_rating }}
     </p>
   {% endfor %}
 {% endblock %}
