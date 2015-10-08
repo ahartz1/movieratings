@@ -2,6 +2,7 @@
 .direnv
 .DS_Store
 .envrc
-ml-1m/
+movieratings/ml-1m/
 *__pycache__/
 *.sqlite3
+*.json
