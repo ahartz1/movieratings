@@ -4,7 +4,7 @@
   {% for movie in movies %}
     <p>
       <a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a>
-      <small>({{ movie.average_rating }}&#9733;)</small>
+      <small>({{ movie.average_rating|floatformat:1 }}&#9733;)</small>
     </p>
   {% endfor %}
 {% endblock %}

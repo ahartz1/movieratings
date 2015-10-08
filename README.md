@@ -2,7 +2,7 @@
 
 ### A Website to see Top Movies, Movie Info, and User Info from the MovieLens 1M Database
 
-* `localhost/top_20` shows the top 20 movies
+* `localhost/` shows the top 20 movies
 * `localhost/movies/movie_id` for each movie's page
 * `localhost/raters` for each rater's page
 
@@ -37,4 +37,4 @@ Located at `localhost/movies/movie_id`, where `localhost` is the location of you
 Located at `localhost/raters/rater_id`, where `localhost` is the location of your django server and `rater_id` is the actual movie id in the database.
 
 ### Top 20 Page
-Located at `localhost/movies/top_20`, where `localhost` is the location of your django server.
+Located at `localhost/`, where `localhost` is the location of your django server.
