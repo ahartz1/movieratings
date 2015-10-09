@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from faker import Faker
+from random import choice
 
 # Create your models here.
+
+
 class Rater(models.Model):
     age = models.PositiveSmallIntegerField()
 
@@ -23,7 +26,6 @@ class Rater(models.Model):
     occupation = models.CharField(max_length=40)
     zipcode = models.CharField(max_length=5)
     user = models.OneToOneField(User, null=True)
-
 
     def __str__(self):
         return str(self.id)
@@ -51,16 +53,27 @@ class Rating(models.Model):
     stars = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return '@{} {}* -> {})'.format(
+        return '@{} {}\u2605 -> {})'.format(
             self.rater, self.stars, self.movie)
 
 
-def make_rater_users():
+def make_raters_users():
     fake = Faker()
     for rater in Rater.objects.all():
-        rater.user.username = fake.username()
-        rater.user.email = fake.email()
-        rater.user.password = 'password'
+        fake_username = ''
+        while True:
+            if rater.user_id is None:
+                fake_username = fake.user_name() + choice('1234567890'.split())
+                try:
+                    rater.user = User.objects.create_user(fake_username,
+                                                          fake.email(),
+                                                          'password')
+                    rater.save()
+                    break
+                except:
+                    continue
+            else:
+                break
 
 
 def load_ml_user_data():
