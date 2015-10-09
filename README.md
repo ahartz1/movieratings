@@ -18,15 +18,13 @@
 
 * You will need to download the [MovieLens 1M](http://files.grouplens.org/datasets/movielens/ml-1m.zip) dataset. Unzip the downloaded file and move the folder into `movieratings/movieratings` (the same directory as `manage.py`). It should be named `ml-1m`.
 
-* **To load the data**, you will need to run some shell commands. Navigate to the `movieratings/movieratings` folder and confirm that you see the `manage.py` file. Then run the following lines:
+* **To load the data**, you will need to run some shell commands. Navigate to the `movieratings/movieratings` folder and confirm that you see the `manage.py` file. Then run the following lines **in order**:
 ```
+$ python ml_to_json.py
 $ python manage.py migrate
-$ python manage.py shell
->>> from lensview.models import *
->>> load_all_ml_data()
->>> exit()
 $ python manage.py loaddata users movies ratings
 $ python manage.py shell
+>>> from lensview.models import *
 >>> make_raters_users()
 >>> exit()
 ```
