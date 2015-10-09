@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.db.models import Avg, Count
 # from django.http import HttpResponse
@@ -25,7 +25,7 @@ def show_movie(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     ratings = movie.rating_set.all()
     return render(request,
-                  'lensview/movie.html',
+                  'movie.html',
                   {'movie': movie,
                    'ratings': ratings})
 
@@ -84,7 +84,6 @@ def user_register(request):
 
             rater = Rater(
                 user=user,
-                favorite_color='blue',
             )
             rater.save()
 
@@ -98,10 +97,13 @@ def user_register(request):
                   {'form': form})
 
 
-#
+def user_logout(request):
+    logout(request)
+    return render(request, 'lensview/logout.html')
+    #
 
-#
+    #
 
-#
+    #
 
-#
+    #
