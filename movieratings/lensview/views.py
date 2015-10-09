@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login
 from django.db.models import Avg, Count
 # from django.http import HttpResponse
-# from .models import Rater, Movie, Rating
+from django.shortcuts import render, redirect
 from .models import Movie, Rater
 
 
@@ -41,3 +41,33 @@ def show_rater(request, rater_id):
                   'lensview/rater.html',
                   {'rater': rater,
                    'movie_ratings': movie_ratings})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        # attempting to log in
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None and user.is_active:
+            login(request, user)
+            return redirect('top20')
+        else:
+            return render(request,
+                          'users/login.html',
+                          {'failed': True,
+                           'username': username})
+
+    return render(request,
+                  'users/login.html')
+
+
+#
+
+#
+
+#
+
+#

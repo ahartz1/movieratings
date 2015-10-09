@@ -8,7 +8,7 @@
     {% for rating in ratings %}
     <li>
       {{ rating.stars }}
-      <a href="{% url 'rater_detail' rating.rater.pk %}">{{ rating.rater }}</a>
+      <a href="{% url 'rater_detail' rating.rater.pk %}">{{ rating.rater.user.username }}</a>
     </li>
   {% endfor %}
 </ul>

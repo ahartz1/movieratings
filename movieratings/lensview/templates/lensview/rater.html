@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>Rater #{{ rater.id }}</h2>
+  <h2>Rater #{{ rater.id }}: {{ rater.user.username }}</h2>
     <dl class='rater_info'>
       <dt>Age</dt>
       <dd>{{ rater.age }}</dd>
