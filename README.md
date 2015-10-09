@@ -26,6 +26,9 @@ $ python manage.py shell
 >>> load_all_ml_data()
 >>> exit()
 $ python manage.py loaddata users movies ratings
+$ python manage.py shell
+>>> make_raters_users()
+>>> exit()
 ```
 
 * **Running the site** requires more command line. Navigate to `movieratings/movieratings` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.

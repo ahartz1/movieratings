@@ -63,7 +63,7 @@ def make_raters_users():
         fake_username = ''
         while True:
             if rater.user_id is None:
-                fake_username = fake.user_name() + choice('1234567890'.split())
+                fake_username = fake.user_name() + choice(list('123456789'))
                 try:
                     rater.user = User.objects.create_user(fake_username,
                                                           fake.email(),

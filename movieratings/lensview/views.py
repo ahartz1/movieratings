@@ -100,10 +100,3 @@ def user_register(request):
 def user_logout(request):
     logout(request)
     return render(request, 'lensview/logout.html')
-    #
-
-    #
-
-    #
-
-    #
