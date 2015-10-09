@@ -17,7 +17,7 @@ class Rater(models.Model):
     age = models.SmallIntegerField()
     occupation = models.CharField(max_length=255)
     zipcode = models.CharField(max_length=5)
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, null=True)
 
     def __str__(self):
         return self.pk
