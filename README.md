@@ -20,15 +20,12 @@
 
 * **To load the data**, you will need to run some shell commands. Navigate to the `movieratings/movieratings` folder and confirm that you see the `manage.py` file. Then run the following lines:
 ```
-$ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py shell
 >>> from lensview.models import *
 >>> load_all_ml_data()
 >>> exit()
-$ python manage.py loaddata users
-$ python manage.py loaddata movies
-$ python manage.py loaddata ratings
+$ python manage.py loaddata users movies ratings
 ```
 
 * **Running the site** requires more command line. Navigate to `movieratings/movieratings` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
