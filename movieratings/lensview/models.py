@@ -32,8 +32,8 @@ class Movie(models.Model):
 
 
 class Rating(models.Model):
-    rater = Rater()
-    movie = Movie()
+    rater = models.ForeignKey(Rater)
+    movie = models.ForeignKey(Movie)
     stars = models.SmallIntegerField()
 
     def __str__(self):
