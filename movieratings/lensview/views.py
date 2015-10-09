@@ -1,8 +1,10 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.db.models import Avg, Count
 # from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Movie, Rater
+from .forms import UserForm
 
 
 # Create your views here.
@@ -43,6 +45,11 @@ def show_rater(request, rater_id):
                    'movie_ratings': movie_ratings})
 
 
+def show_user_by_username(request, username):
+    rater_id = User.objects.get(username=username).rater.id
+    return show_rater(request, rater_id=rater_id)
+
+
 def user_login(request):
     if request.method == 'POST':
         # attempting to log in
@@ -62,6 +69,33 @@ def user_login(request):
 
     return render(request,
                   'users/login.html')
+
+
+def user_register(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            password = user.password
+
+            user.set_password(password)
+            user.save()
+
+            rater = Rater(
+                user=user,
+                favorite_color='blue',
+            )
+            rater.save()
+
+            user = authenticate(username=user.username,
+                                password=password)
+            login(request, user)
+            return redirect('all_statuses')
+    else:
+        form = UserForm()
+    return render(request, 'users/register.html',
+                  {'form': form})
 
 
 #

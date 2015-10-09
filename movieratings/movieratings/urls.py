@@ -16,8 +16,11 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from lensview import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'', include('lensview.urls'), name='top20'),
+    url(r'^login/$', views.user_login, name='user_login'),
+    url(r'^register/$', views.user_register, name='user_register'),
+    url(r'^', include('lensview.urls'), name='top20'),
 ]
