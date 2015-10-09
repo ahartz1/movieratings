@@ -63,12 +63,12 @@ def user_login(request):
             return redirect('top20')
         else:
             return render(request,
-                          'users/login.html',
+                          'lensview/login.html',
                           {'failed': True,
                            'username': username})
 
     return render(request,
-                  'users/login.html')
+                  'lensview/login.html')
 
 
 def user_register(request):
@@ -91,10 +91,10 @@ def user_register(request):
             user = authenticate(username=user.username,
                                 password=password)
             login(request, user)
-            return redirect('all_statuses')
+            return redirect('top20')
     else:
         form = UserForm()
-    return render(request, 'users/register.html',
+    return render(request, 'lensview/register.html',
                   {'form': form})
 
 
