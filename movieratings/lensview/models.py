@@ -55,6 +55,14 @@ class Rating(models.Model):
             self.rater, self.stars, self.movie)
 
 
+def make_rater_users():
+    fake = Faker()
+    for rater in Rater.objects.all():
+        rater.user.username = fake.username()
+        rater.user.email = fake.email()
+        rater.user.password = 'password'
+
+
 def load_ml_user_data():
     import csv
     import json
