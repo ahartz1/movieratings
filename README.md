@@ -8,7 +8,7 @@
 
 ### System Requirements
 
-* You will need to have **python&nbsp;3** installed on your machine or have access to a Python&nbsp;3 interpreter. See [Python's site](https://www.python.org/) for details.
+* You will need to have **Python&nbsp;3** installed on your machine or have access to a Python&nbsp;3 interpreter. See [Python's site](https://www.python.org/) for details.
 
 * Copy this repo to your computer; the below assumes you have kept the default folder name as `movieratings`.
 
