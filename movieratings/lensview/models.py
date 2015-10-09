@@ -44,12 +44,23 @@ class Rating(models.Model):
         return '@{}: {}\u2505 -> {}'.format(
             self.rater, self.stars, self.movie.title)
 
+
 def make_raters_users():
+    from faker import Faker
+    from random import choice
 
+    fake = Faker()
 
-
-
-
-
-
+    for rater in Rater.objects.all():
+        if type(rater.user) is 'NoneType':
+            while True:
+                fake_username = fake.user_name() + choice(list('0123456789'))
+                try:
+                    user = User.objects.create_user(fake_username,
+                                                    fake.email(),
+                                                    'password')
+                    user.save()
+                    break
+                except:
+                    continue
 #
