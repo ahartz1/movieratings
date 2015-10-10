@@ -17,7 +17,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    # url(r'^movies/(?P<movie_id>)/', views.movie_detail, 'movie_detail'),
-    # url(r'^users/(?P<user_id>)/', views.user_detail, 'user_detail'),
-    # url(r'^$', views.top_20, 'top_20')
+    url(r'^movies/(?P<movie_id>\d+)$', views.movie_detail, name='movie_detail'),
+    # url(r'^users/(?P<user_id>\d+)$', views.user_detail, name='user_detail'),
+    # url(r'^$', views.top_20, name='top_20')
 ]

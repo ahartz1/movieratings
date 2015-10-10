@@ -5,9 +5,9 @@ from .models import Movie
 
 
 def movie_detail(request, movie_id):
-    movie = Movie.objects.filter(pk=movie_id)
-    stars = u"\u2605" * (movie.average_rating() - 1)
+    movie = Movie.objects.get(pk=movie_id)
+    ratings = movie.rating_set.all()
     return render(request,
                   'lensview/movie_detail.html',
                   {'movie': movie,
-                   'stars': stars})
+                   'ratings': ratings})
