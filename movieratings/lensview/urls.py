@@ -19,5 +19,5 @@ from . import views
 urlpatterns = [
     url(r'^movies/(?P<movie_id>\d+)$', views.movie_detail, name='movie_detail'),
     url(r'^users/(?P<rater_id>\d+)$', views.user_detail, name='user_detail'),
-    # url(r'^$', views.top_20, name='top_20')
+    url(r'^$', views.top_20, name='top_20')
 ]
