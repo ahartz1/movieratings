@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ rater.user.username }}{% endblock %}
+
+{% block content %}
+<h1>{{ rater.user.username }}</h1>
+  <dl>
+    <dt>Gender</dt>
+    <dd>{{ rater.gender }}</dd>
+    <dt>Age</dt>
+    <dd>{{ rater.age }}</dd>
+    <dt>Occupation</dt>
+    <dd>{{ rater.occupation }}</dd>
+    <dt>Zipcode</dt>
+    <dd>{{ rater.zipcode }}</dd>
+  </dl>
+
+<ul>
+  {% for rating in ratings %}
+    <li><a href="{% url 'movie_detail' rating.movie.pk %}">{{ rating.movie.title }}</a> {{ rating.stars }}&#9733;</li>
+  {% endfor %}
+</ul>
+{% endblock %}
