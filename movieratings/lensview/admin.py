@@ -3,15 +3,15 @@ from .models import Rater, Movie, Rating
 
 
 class RaterAdmin(admin.ModelAdmin):
-    display_list = ['gender', 'age', 'occupation', 'zipcode', 'user__username']
+    list_display = ('gender', 'age', 'occupation', 'zipcode', 'user')
 
 
 class MovieAdmin(admin.ModelAdmin):
-    display_list = ['title', 'genres']
+    list_display = ('title', 'genres', 'average_rating')
 
 
 class RatingAdmin(admin.ModelAdmin):
-    display_list = ['rater__user__username', 'stars', 'movie__title']
+    list_display = ('rater', 'stars', 'movie')
 
 
 # Register your models here.
