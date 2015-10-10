@@ -33,11 +33,11 @@ class Movie(models.Model):
 class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
-    stars = models.SmallIntegerField(choices=[(1, '1\u2505'),
-                                              (2, '2\u2505'),
-                                              (3, '3\u2505'),
-                                              (4, '4\u2505'),
-                                              (5, '5\u2505'),
+    stars = models.SmallIntegerField(choices=[(1, '\u2505'),
+                                              (2, '\u2505'*2),
+                                              (3, '\u2505'*3),
+                                              (4, '\u2505'*4),
+                                              (5, '\u2505'*5),
                                               ])
 
     def __str__(self):
@@ -52,7 +52,7 @@ def make_raters_users():
     fake = Faker()
 
     for rater in Rater.objects.all():
-        if type(rater.user) is 'NoneType':
+        if rater.user is None:
             while True:
                 fake_username = fake.user_name() + choice(list('0123456789'))
                 try:
