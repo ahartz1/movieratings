@@ -37,15 +37,21 @@ class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
     stars = models.SmallIntegerField(choices=[(1, u'\u2605'),
-                                              (2, u'\u2605'*2),
-                                              (3, u'\u2605'*3),
-                                              (4, u'\u2605'*4),
-                                              (5, u'\u2605'*5),
+                                              (2, u'\u2605' * 2),
+                                              (3, u'\u2605' * 3),
+                                              (4, u'\u2605' * 4),
+                                              (5, u'\u2605' * 5),
                                               ])
 
     def __str__(self):
         return '@{}: {}\u2605 -> {}'.format(
             self.rater, self.stars, self.movie.title)
+
+    def rater_username(self):
+        return self.rater.user.username
+
+    def movie_title(self):
+        return self.movie.title
 
 
 def make_raters_users():
@@ -59,10 +65,10 @@ def make_raters_users():
             while True:
                 fake_username = fake.user_name() + choice(list('0123456789'))
                 try:
-                    user = User.objects.create_user(fake_username,
-                                                    fake.email(),
-                                                    'password')
-                    user.save()
+                    rater.user = User.objects.create_user(fake_username,
+                                                          fake.email(),
+                                                          'password')
+                    rater.save()
                     break
                 except:
                     continue

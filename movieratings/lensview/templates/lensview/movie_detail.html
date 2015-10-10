@@ -7,7 +7,7 @@
 
 <ul>
   {% for rating in movie.rating_set %}
-    <li>{{ rating.user.username }} {{ stars }}</li>
+    <li>{{ rating.rater.user.username }} {{ stars }}</li>
   {% endfor %}
 </ul>
 {% endblock %}
