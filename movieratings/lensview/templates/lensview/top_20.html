@@ -6,7 +6,8 @@
 <h1>Top 20 Movies</h1>
 <ul>
   {% for movie in top_movies %}
-    <li><a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a> {{ movie.avg_rating|floatformat:1 }}&#9733;</li>
+    <li><a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a>
+      {{ movie.avg_rating|floatformat:1 }}&#9733;</li>
   {% endfor %}
 </ul>
 {% endblock %}
