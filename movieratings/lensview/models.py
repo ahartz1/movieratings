@@ -19,7 +19,7 @@ class Rater(models.Model):
     user = models.OneToOneField(User, null=True)
 
     def __str__(self):
-        return self.pk
+        return str(self.pk)
 
 
 class Movie(models.Model):
@@ -27,21 +27,24 @@ class Movie(models.Model):
     genres = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.pk
+        return str(self.pk)
+
+    def average_rating(self):
+        return self.rating_set.aggregate(models.Avg('stars'))
 
 
 class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
-    stars = models.SmallIntegerField(choices=[(1, '\u2505'),
-                                              (2, '\u2505'*2),
-                                              (3, '\u2505'*3),
-                                              (4, '\u2505'*4),
-                                              (5, '\u2505'*5),
+    stars = models.SmallIntegerField(choices=[(1, u'\u2605'),
+                                              (2, u'\u2605'*2),
+                                              (3, u'\u2605'*3),
+                                              (4, u'\u2605'*4),
+                                              (5, u'\u2605'*5),
                                               ])
 
     def __str__(self):
-        return '@{}: {}\u2505 -> {}'.format(
+        return '@{}: {}\u2605 -> {}'.format(
             self.rater, self.stars, self.movie.title)
 
 

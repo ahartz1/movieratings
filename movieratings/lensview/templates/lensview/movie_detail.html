@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ movie.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ movie.title }} <small>({% movie.average_rating %})</small></h1>
+
+<ul>
+  {% for rating in movie.rating_set %}
+    <li>{{ rating.user.username }} {{ stars }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
