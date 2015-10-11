@@ -6,7 +6,8 @@
 
   <form method="POST" action="{% url 'user_register' %}">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ user_form.as_p }}
+    {{ rater_form.as_p }}
     <input type="submit" value="Register">
   </form>
 {% endblock %}

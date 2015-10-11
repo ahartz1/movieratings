@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
 from django.shortcuts import redirect, render
-from .forms import UserForm
+from .forms import UserForm, RaterForm
 from .models import Rater, Movie
 
 # Create your views here.
@@ -63,33 +63,36 @@ def user_login(request):
 
 def user_register(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
-        # user_form = UserForm(request.POST, prefix="user")
-        # rater_form = RaterForm(request.POST, prefix="rater")
+        # form = UserForm(request.POST)
+        user_form = UserForm(request.POST)
+        rater_form = RaterForm(request.POST)
 
-        if form.is_valid():
-            # if user_form.is_valid() and rater_form.is_valid():
-            user = form.save()
-            password = user.password
+        # if user_form.is_valid():
+        if user_form.is_valid() and rater_form.is_valid():
+            user = user_form.save()
+            password = user_form['password']
             user.set_password(password)
             user.save()
 
             # rater_form.cleaned_data['user'] = user
-            # rater = rater_form.save()
-            #
-            rater = Rater(
-                user=user,
-            )
+            rater = rater_form.save(commit=False)
+            rater.user = user
+
+            # rater = Rater(
+            #     user=user,
+            # )
             rater.save()
 
-            user.authenticate(username=user.username, password=user.password)
+            user = authenticate(username=user.username, password=password)
             login(request, user)
             return redirect('top_20')
     else:
-        form = UserForm()
+        user_form = UserForm()
+        rater_form = RaterForm()
     return render(request,
                   'lensview/user_register.html',
-                  {'form': form})
+                  {'user_form': user_form,
+                   'rater_form': rater_form})
 
 
 def user_logout(request):

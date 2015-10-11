@@ -11,7 +11,7 @@ class UserForm(forms.ModelForm):
         fields = ['username', 'email', 'password', 'first_name', 'last_name']
 
 
-# class RaterForm(forms.ModelForm):
-#     class Meta:
-#         model = Rater
-#         fields = ['gender', 'age', 'occupation', 'zipcode']
+class RaterForm(forms.ModelForm):
+    class Meta:
+        model = Rater
+        fields = ['gender', 'age', 'occupation', 'zipcode']
