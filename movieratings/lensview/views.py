@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.db.models import Avg, Count
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from .forms import UserForm
 from .models import Rater, Movie
 
 # Create your views here.
@@ -40,12 +41,53 @@ def top_20(request):
 
 
 def user_login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None and user.is_active:
             login(request, user)
             return render(request,
-                          'user_detail',
+                          'lensview/user_detail.html',
                           {'rater_id': user.rater.pk})
+        else:
+            return render(request,
+                          'lensview/user_login.html',
+                          {'error_message': "ERROR LOGGING IN!",
+                           'username': username})
+    else:
+        return render(request,
+                      'lensview/user_login.html')
+
+
+def user_register(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            password = user.password
+            user.set_password(password)
+            user.save()
+
+            rater = Rater(
+                user=user,
+                age=request.POST['age'],
+                gender=request.POST['gender'],
+                occupation=request.POST['occupation'],
+                zipcode=request.POST['zipcode'],
+            )
+            rater.save()
+
+            user.authenticate(username=user.username, password=user.password)
+            login(request, user)
+            return redirect('top_20')
+    else:
+        form = UserForm()
+    return render(request,
+                  'lensview/register.html',
+                  {'form': form})
+
+
+def user_logout(request):
+    pass
