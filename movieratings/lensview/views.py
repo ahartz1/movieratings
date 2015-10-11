@@ -63,19 +63,21 @@ def user_login(request):
 def user_register(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
+        # user_form = UserForm(request.POST, prefix="user")
+        # rater_form = RaterForm(request.POST, prefix="rater")
 
         if form.is_valid():
+        # if user_form.is_valid() and rater_form.is_valid():
             user = form.save()
             password = user.password
             user.set_password(password)
             user.save()
 
+            # rater_form.cleaned_data['user'] = user
+            # rater = rater_form.save()
+            #
             rater = Rater(
                 user=user,
-                age=request.POST['age'],
-                gender=request.POST['gender'],
-                occupation=request.POST['occupation'],
-                zipcode=request.POST['zipcode'],
             )
             rater.save()
 
@@ -85,7 +87,7 @@ def user_register(request):
     else:
         form = UserForm()
     return render(request,
-                  'lensview/register.html',
+                  'lensview/user_register.html',
                   {'form': form})
 
 

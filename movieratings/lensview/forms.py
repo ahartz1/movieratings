@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from lensview.models import Rater
 
 
 class UserForm(forms.ModelForm):
@@ -7,4 +8,10 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'first_name', 'last_name')
+        fields = ['username', 'email', 'password', 'first_name', 'last_name']
+
+
+# class RaterForm(forms.ModelForm):
+#     class Meta:
+#         model = Rater
+#         fields = ['gender', 'age', 'occupation', 'zipcode']
