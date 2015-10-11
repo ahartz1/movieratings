@@ -1,5 +1,6 @@
+from django.contrib.auth import authenticate, login
 from django.db.models import Avg, Count
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Rater, Movie
 
 # Create your views here.
@@ -36,3 +37,15 @@ def top_20(request):
     return render(request,
                   'lensview/top_20.html',
                   {'top_movies': top_movies})
+
+
+def user_login(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            return render(request,
+                          'user_detail'
+                          {'rater_id': user.rater.pk})
