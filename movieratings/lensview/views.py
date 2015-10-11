@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.db.models import Avg, Count
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from .models import Rater, Movie
 
 # Create your views here.
@@ -47,5 +47,5 @@ def user_login(request):
         if user.is_active:
             login(request, user)
             return render(request,
-                          'user_detail'
+                          'user_detail',
                           {'rater_id': user.rater.pk})
