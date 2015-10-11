@@ -6,9 +6,9 @@
 
   <h2>Login</h2>
 
-  {% if error_message %}<h3>{{ error_message }</h3>{% endif %}
+  {% if error_message %}<h3>{{ error_message }}</h3>{% endif %}
 
-<form method="POST" action="{% url 'user_login' }">
+<form method="POST" action="{% url 'user_login' %}">
   {% csrf_token %}
   Username: <input type="text" name="username" value="{{ username }}">
   <br>

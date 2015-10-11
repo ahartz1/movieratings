@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
 from django.shortcuts import redirect, render
 from .forms import UserForm
@@ -47,9 +48,9 @@ def user_login(request):
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             login(request, user)
-            return render(request,
-                          'lensview/user_detail.html',
-                          {'rater_id': user.rater.pk})
+            # ratings = user.rater.rating_set.all().order_by('-stars')
+            return redirect(reverse('user_detail',
+                                    args=[user.rater.pk]))
         else:
             return render(request,
                           'lensview/user_login.html',
@@ -67,7 +68,7 @@ def user_register(request):
         # rater_form = RaterForm(request.POST, prefix="rater")
 
         if form.is_valid():
-        # if user_form.is_valid() and rater_form.is_valid():
+            # if user_form.is_valid() and rater_form.is_valid():
             user = form.save()
             password = user.password
             user.set_password(password)
@@ -92,4 +93,11 @@ def user_register(request):
 
 
 def user_logout(request):
-    pass
+    if request.user.is_authenticated():
+        user_name = request.user.username
+        logout(request)
+        return render(request,
+                      'lensview/user_logout.html',
+                      {'user_name': user_name})
+    else:
+        return redirect('/')

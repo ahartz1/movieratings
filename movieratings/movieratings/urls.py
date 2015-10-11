@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', lv.user_login, name='user_login'),
     url(r'^register/$', lv.user_register, name='user_register'),
+    url(r'^logout/$', lv.user_logout, name='user_logout'),
     url(r'', include(lensview_urls))
 ]
