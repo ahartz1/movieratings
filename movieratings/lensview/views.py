@@ -17,8 +17,6 @@ def movie_detail(request, movie_id):
             rating.movie = Movie.objects.get(pk=movie_id)
             rating.save()
             return redirect('movie_detail', rating.movie.pk)
-    else:
-        form = RatingForm()
     movie = Movie.objects.get(pk=movie_id)
     ratings = movie.rating_set.all()
     user_stars = None
@@ -27,14 +25,19 @@ def movie_detail(request, movie_id):
             user_stars = request.user.rater.rating_set.filter(
                 movie_id=movie_id)[0].stars
         except:
-            pass
-
-    return render(request,
-                  'lensview/movie_detail.html',
-                  {'movie': movie,
-                   'ratings': ratings,
-                   'user_stars': user_stars,
-                   'form': form})
+            form = RatingForm()
+            return render(request,
+                          'lensview/movie_detail.html',
+                          {'movie': movie,
+                           'ratings': ratings,
+                           'user_stars': user_stars,
+                           'form': form})
+    else:
+        return render(request,
+                      'lensview/movie_detail.html',
+                      {'movie': movie,
+                       'ratings': ratings,
+                       'user_stars': user_stars})
 
 
 def user_detail(request, rater_id):

@@ -4,30 +4,34 @@
 
 {% block content %}
 <h1>{{ movie.title }}</h1>
-  <p class="average-rating">Average Rating: {{ movie.average_rating|floatformat:1 }}&#9733;</p>
+  <p class="average-rating">
+    Average Rating: {{ movie.average_rating|floatformat:1 }}&#9733;
+  </p>
 
-    {% if user_stars %}
-    <p>
-      <small>(You rated this
-        {{ user_stars }}&#9733;)
-      </small>
-    </p>
-    {% else %}
-    <p>
-      <small>
-        <p>Rate this film</p>
-        <form method="POST" action="{% url 'movie_detail' movie.pk  %}">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <input type="submit" value="Submit Rating">
-        </form>
-      </small>
-    </p>
-    {% endif %}
+{% if user_stars %}
+<p>
+  <small>(You rated this
+    {{ user_stars }}&#9733;)
+  </small>
+</p>
+{% elif user.is_authenticated %}
+<p>
+  <small>
+    <p>Rate this film</p>
+    <form method="POST" action="{% url 'movie_detail' movie.pk  %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Submit Rating">
+    </form>
+  </small>
+</p>
+{% endif %}
 
 <ul>
   {% for rating in ratings %}
-    <li><a href="{% url 'user_detail' rating.rater.pk %}">{{ rating.rater.user.username }}<a> {{ rating.stars }}&#9733;</li>
+    <li><a href="{% url 'user_detail' rating.rater.pk %}">
+      {{ rating.rater.user.username }}<a> {{ rating.stars }}&#9733;
+    </li>
   {% endfor %}
 </ul>
 {% endblock %}
