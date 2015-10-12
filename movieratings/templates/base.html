@@ -5,9 +5,9 @@
 </head>
 
 <body>
-  <div id="navigation">
+  <div id="navigation" style="float: right;">
     {% if user.is_authenticated %}
-      <p><a href="{% url 'user_detail' user.rater.pk %}">{{ user.username }}</a> | 
+      <p><a href="{% url 'user_detail' user.rater.pk %}">{{ user.username }}</a> |
         <a href="{% url 'user_logout' %}">Logout</a></p>
     {% else %}
       <p><a href="{% url 'user_login' %}">Login</a></p>
