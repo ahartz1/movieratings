@@ -9,6 +9,16 @@ from .models import Rater, Movie, Rating
 
 
 def movie_detail(request, movie_id):
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.rater = request.user.rater
+            rating.movie = Movie.objects.get(pk=movie_id)
+            rating.save()
+            return redirect('movie_detail', rating.movie.pk)
+    else:
+        form = RatingForm()
     movie = Movie.objects.get(pk=movie_id)
     ratings = movie.rating_set.all()
     user_stars = None
@@ -23,7 +33,8 @@ def movie_detail(request, movie_id):
                   'lensview/movie_detail.html',
                   {'movie': movie,
                    'ratings': ratings,
-                   'user_stars': user_stars})
+                   'user_stars': user_stars,
+                   'form': form})
 
 
 def user_detail(request, rater_id):
@@ -48,24 +59,6 @@ def top_20(request):
     return render(request,
                   'lensview/top_20.html',
                   {'top_movies': top_movies})
-
-
-def rate_movie(request, movie_id):
-    '''Logged in user's movie rating from link on movie's page'''
-    if request.method == 'POST':
-        form = RatingForm(request.POST)
-        if form.is_valid():
-            rating = form.save(commit=False)
-            rating.rater = request.user.rater
-            rating.movie = Movie.objects.get(pk=movie_id)
-            rating.save()
-            return redirect('movie_detail', rating.movie.pk)
-    else:
-        form = RatingForm()
-    return render(request,
-                  'lensview/rate_movie.html',
-                  {'form': form,
-                   'movie': Movie.objects.get(pk=movie_id)})
 
 
 def user_login(request):
