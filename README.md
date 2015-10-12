@@ -8,7 +8,7 @@
 
 ### System Requirements
 
-* You will need to have **python&nbsp;3** installed on your machine or have access to a Python&nbsp;3 interpreter. See [Python's site](https://www.python.org/) for details.
+* You will need to have **Python&nbsp;3** installed on your machine or have access to a Python&nbsp;3 interpreter. See [Python's site](https://www.python.org/) for details.
 
 * Copy this repo to your computer; the below assumes you have kept the default folder name as `movieratings`.
 
@@ -18,17 +18,15 @@
 
 * You will need to download the [MovieLens 1M](http://files.grouplens.org/datasets/movielens/ml-1m.zip) dataset. Unzip the downloaded file and move the folder into `movieratings/movieratings` (the same directory as `manage.py`). It should be named `ml-1m`.
 
-* **To load the data**, you will need to run some shell commands. Navigate to the `movieratings/movieratings` folder and confirm that you see the `manage.py` file. Then run the following lines:
+* **To load the data**, you will need to run some shell commands. Navigate to the `movieratings/movieratings` folder and confirm that you see the `manage.py` file. Then run the following lines **in order**:
 ```
-$ python manage.py makemigrations
+$ python ml_to_json.py
 $ python manage.py migrate
+$ python manage.py loaddata users movies ratings
 $ python manage.py shell
 >>> from lensview.models import *
->>> load_all_ml_data()
+>>> make_raters_users()
 >>> exit()
-$ python manage.py loaddata users
-$ python manage.py loaddata movies
-$ python manage.py loaddata ratings
 ```
 
 * **Running the site** requires more command line. Navigate to `movieratings/movieratings` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.

@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>MovieLens 1M Database Viewer</title>
+  <title>{% block title %}MovieLens 1M Database Viewer{% endblock %}</title>
 </head>
 
 <body>
-  <h1>MovieLens 1M Database Viewer</h1>
-  {% block content %}
-  {% endblock %}
+  <div id="navigation">
+    {% if user.is_authenticated %}
+      <p><a href="{% url 'user_detail' user.rater.pk %}">{{ user.username }}</a> | 
+        <a href="{% url 'user_logout' %}">Logout</a></p>
+    {% else %}
+      <p><a href="{% url 'user_login' %}">Login</a></p>
+    {% endif %}
+  </div>
+
+  <div id="content">
+    {% block content %}{% endblock %}
+  </div>
 </body>
 <footer>
   <p>&copy;2015 Adam Hartz</p>
