@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
 from django.shortcuts import redirect, render
+from datetime import datetime
 from .forms import UserForm, RaterForm, RatingForm
 from .models import Rater, Movie, Rating
 
@@ -16,6 +17,7 @@ def movie_detail(request, movie_id):
             rating = form.save(commit=False)
             rating.rater = request.user.rater
             rating.movie = Movie.objects.get(pk=movie_id)
+            rating.timestamp = datetime.now()
             rating.save()
             return redirect('movie_detail', rating.movie.pk)
         else:

@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.utils import timezone
 from django.db import models
 # Create your models here.
 
@@ -49,7 +48,7 @@ class Rating(models.Model):
                                               (4, u'\u2605' * 4),
                                               (5, u'\u2605' * 5)],
                                      validators=[is_valid_stars])
-    timestamp = models.DateTimeField(default=timezone.now())
+    timestamp = models.DateTimeField()
     review = models.TextField(max_length=511, null=True, blank=True)
 
     def __str__(self):
@@ -61,24 +60,3 @@ class Rating(models.Model):
 
     def movie_title(self):
         return self.movie.title
-
-
-def make_raters_users():
-    from faker import Faker
-    from random import choice
-
-    fake = Faker()
-
-    for rater in Rater.objects.all():
-        if rater.user is None:
-            while True:
-                fake_username = fake.user_name() + choice(list('0123456789'))
-                try:
-                    rater.user = User.objects.create_user(fake_username,
-                                                          fake.email(),
-                                                          'password')
-                    rater.save()
-                    break
-                except:
-                    continue
-#
