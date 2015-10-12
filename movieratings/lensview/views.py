@@ -2,8 +2,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
 from django.shortcuts import redirect, render
-from .forms import UserForm, RaterForm
-from .models import Rater, Movie
+from .forms import UserForm, RaterForm, RatingForm
+from .models import Rater, Movie, Rating
 
 # Create your views here.
 
@@ -11,10 +11,19 @@ from .models import Rater, Movie
 def movie_detail(request, movie_id):
     movie = Movie.objects.get(pk=movie_id)
     ratings = movie.rating_set.all()
+    user_stars = None
+    if request.user.is_authenticated():
+        try:
+            user_stars = request.user.rater.rating_set.filter(
+                movie_id=movie_id)[0].stars
+        except:
+            pass
+
     return render(request,
                   'lensview/movie_detail.html',
                   {'movie': movie,
-                   'ratings': ratings})
+                   'ratings': ratings,
+                   'user_stars': user_stars})
 
 
 def user_detail(request, rater_id):
@@ -41,6 +50,24 @@ def top_20(request):
                   {'top_movies': top_movies})
 
 
+def rate_movie(request, movie_id):
+    '''Logged in user's movie rating from link on movie's page'''
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.rater = request.user.rater
+            rating.movie = Movie.objects.get(pk=movie_id)
+            rating.save()
+            return redirect('movie_detail', rating.movie.pk)
+    else:
+        form = RatingForm()
+    return render(request,
+                  'lensview/rate_movie.html',
+                  {'form': form,
+                   'movie': Movie.objects.get(pk=movie_id)})
+
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -49,38 +76,30 @@ def user_login(request):
         if user is not None and user.is_active:
             login(request, user)
             # ratings = user.rater.rating_set.all().order_by('-stars')
-            return redirect(reverse('user_detail',
-                                    args=[user.rater.pk]))
+            return redirect(reverse('user_detail', args=[user.rater.pk]))
         else:
             return render(request,
                           'lensview/user_login.html',
                           {'error_message': "ERROR LOGGING IN!",
                            'username': username})
     else:
-        return render(request,
-                      'lensview/user_login.html')
+        return render(request, 'lensview/user_login.html')
 
 
 def user_register(request):
     if request.method == 'POST':
-        # form = UserForm(request.POST)
         user_form = UserForm(request.POST)
         rater_form = RaterForm(request.POST)
 
-        # if user_form.is_valid():
         if user_form.is_valid() and rater_form.is_valid():
             user = user_form.save()
             password = user_form['password']
             user.set_password(password)
             user.save()
 
-            # rater_form.cleaned_data['user'] = user
             rater = rater_form.save(commit=False)
             rater.user = user
 
-            # rater = Rater(
-            #     user=user,
-            # )
             rater.save()
 
             user = authenticate(username=user.username, password=password)

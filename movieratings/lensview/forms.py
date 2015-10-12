@@ -1,6 +1,7 @@
 from django import forms
+# from django.forms.models import inlineformset_factory
 from django.contrib.auth.models import User
-from lensview.models import Rater
+from lensview.models import Rater, Rating
 
 
 class UserForm(forms.ModelForm):
@@ -15,3 +16,9 @@ class RaterForm(forms.ModelForm):
     class Meta:
         model = Rater
         fields = ['gender', 'age', 'occupation', 'zipcode']
+
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ['stars']

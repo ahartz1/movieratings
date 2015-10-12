@@ -4,7 +4,21 @@
 
 {% block content %}
 <h1>{{ movie.title }}</h1>
-  <p class="average-rating">{{ movie.average_rating|floatformat:1 }}&#9733;</p>
+  <p class="average-rating">Average Rating: {{ movie.average_rating|floatformat:1 }}&#9733;</p>
+
+    {% if user_stars %}
+    <p>
+      <small>(You rated this
+        {{ user_stars }}&#9733;)
+      </small>
+    </p>
+    {% else %}
+    <p>
+      <small>
+        <a href="{% url 'rate_movie' movie.pk %}">Rate this film</a>
+      </small>
+    </p>
+    {% endif %}
 
 <ul>
   {% for rating in ratings %}

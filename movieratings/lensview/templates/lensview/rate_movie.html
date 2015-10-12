@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Rate: {{ movie.title }}{% endblock %}
+
+{% block content %}
+  <h2>Rate: {{ movie.title }}</h2>
+
+  <form method="POST" action="{% url 'rate_movie' movie.pk  %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit Rating">
+  </form>
+{% endblock %}

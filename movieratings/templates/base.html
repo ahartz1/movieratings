@@ -7,7 +7,8 @@
 <body>
   <div id="navigation">
     {% if user.is_authenticated %}
-      <p>{{ user.username }} | <a href="{% url 'user_logout' %}">Logout</a></p>
+      <p><a href="{% url 'user_detail' user.rater.pk %}">{{ user.username }}</a> | 
+        <a href="{% url 'user_logout' %}">Logout</a></p>
     {% else %}
       <p><a href="{% url 'user_login' %}">Login</a></p>
     {% endif %}
