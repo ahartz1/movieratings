@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
 from django.shortcuts import redirect, render
@@ -17,6 +18,10 @@ def movie_detail(request, movie_id):
             rating.movie = Movie.objects.get(pk=movie_id)
             rating.save()
             return redirect('movie_detail', rating.movie.pk)
+        else:
+            messages.add_message(request,
+                                 messages.ERROR,
+                                 'Star rating must be between 1 and 5')
     movie = Movie.objects.get(pk=movie_id)
     ratings = movie.rating_set.all()
     user_stars = None

@@ -1,3 +1,6 @@
+from datetime.datetime import utcfromtimestamp
+
+
 def ml_users_to_json():
     import csv
     import json
@@ -84,6 +87,7 @@ def ml_ratings_to_json():
                     'rater': int(row['UserID']),
                     'movie': int(row['MovieID']),
                     'stars': int(row['Rating']),
+                    'timestamp': utcfromtimestamp(row['Timestamp']),
                 },
             }
             rating_data.append(rating)
