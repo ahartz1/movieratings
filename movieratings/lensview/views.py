@@ -24,6 +24,11 @@ def movie_detail(request, movie_id):
         try:
             user_stars = request.user.rater.rating_set.filter(
                 movie_id=movie_id)[0].stars
+            return render(request,
+                          'lensview/movie_detail.html',
+                          {'movie': movie,
+                           'ratings': ratings,
+                           'user_stars': user_stars})
         except:
             form = RatingForm()
             return render(request,
