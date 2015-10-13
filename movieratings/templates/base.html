@@ -15,38 +15,37 @@
     <div class="header clearfix">
       <nav>
         <ul class="nav nav-pills pull-right">
-          <li role="presentation" class="active"><a href="#">Home</a></li>
-          <li role="presentation"><a href="#">About</a></li>
-          <li role="presentation"><a href="#">Contact</a></li>
+          <li role="presentation"><a href="{% url 'top_20' %}">Home</a></li>
+
+          {% if user.is_authenticated %}
+          <li role="presentation">
+            <a href="{% url 'user_detail' user.rater.pk %}">{{ user.username }}</a>
+          </li>
+          <li role="presentation">
+            <a href="{% url 'user_logout' %}">Logout</a>
+          </li>
+          {% else %}
+          <li role="presentation">
+            <a href="{% url 'user_login' %}">Login</a>
+          </li>
+          <li role="presentation">
+            <a href="{% url 'user_register' %}">Register</a>
+          </li>
+          {% endif %}
         </ul>
       </nav>
-      <h3 class="text-muted">Project name</h3>
+      <h3 class="text-muted">MovieLens 1M Database Viewer</h3>
     </div>
-
-    <div id="navigation" style="float: right;">
-      <p><a href="{% url 'top_20' %}">Home</a> |
-      {% if user.is_authenticated %}
-        <a href="{% url 'user_detail' user.rater.pk %}">{{ user.username }}</a> |
-          <a href="{% url 'user_logout' %}">Logout</a></p>
-      {% else %}
-        <a href="{% url 'user_login' %}">Login</a></p>
-      {% endif %}
-    </div>
-
+    {% bootstrap_messages %}
     <div id="content">
-      {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}
-              >{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
       {% block content %}{% endblock %}
     </div>
   </div>
 </body>
 <footer>
-  <p>&copy;2015 Adam Hartz</p>
+  <div class="container">
+    <br>
+    <p>&copy;2015 Adam Hartz</p>
+  </div>
 </footer>
 </html>

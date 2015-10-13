@@ -67,11 +67,10 @@ def user_detail(request, rater_id):
 @login_required
 def edit_rating(request, rater_id, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
-    # TODO: Figure out why the below doesn't work
-    # if request.user.rater.pk != rater_id:
-    #     messages.add_message(request, messages.ERROR,
-    #                          'You must be logged in to edit')
-    #     return redirect('user_detail', rater_id)
+    if request.user.rater.pk != int(rater_id):
+        messages.add_message(request, messages.ERROR,
+                             'You must be logged in to edit')
+        return redirect('user_detail', rater_id)
 
     try:
         rating = Rating.objects.all().filter(rater=request.user.rater,
@@ -103,6 +102,9 @@ def edit_rating(request, rater_id, movie_id):
 @login_required
 def delete_rating(request, rater_id, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
+    if request.user.rater.pk != int(rater_id):
+        messages.add_message(request, messages.ERROR,
+                             'You must be logged in to delete')
     try:
         Rating.objects.all().filter(rater=request.user.rater,
                                     movie=movie).delete()
@@ -174,6 +176,9 @@ def user_register(request):
 
             user = authenticate(username=user.username, password=password)
             login(request, user)
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your account was successfully created.')
             return redirect('top_20')
     else:
         user_form = UserForm()
@@ -188,6 +193,8 @@ def user_logout(request):
     if request.user.is_authenticated():
         user_name = request.user.username
         logout(request)
+        messages.add_message(request, messages.SUCCESS,
+                             "You have successfully logged out")
         return render(request,
                       'lensview/user_logout.html',
                       {'user_name': user_name})
