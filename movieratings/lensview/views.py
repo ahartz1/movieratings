@@ -123,7 +123,17 @@ def top_20(request):
 
     return render(request,
                   'lensview/top_20.html',
-                  {'top_movies': top_movies})
+                  {'top_movies': top_movies,
+                   'top_type': 'avg_rating'})
+
+
+def top_20_by_num_ratings(request):
+    most_rated = Movie.objects.annotate(num_raters=Count('rating')) \
+        .annotate(avg_rating=Avg('rating__stars')).order_by('-num_raters')[:20]
+    return render(request,
+                  'lensview/top_20.html',
+                  {'top_movies': most_rated,
+                   'top_type': 'num_raters'})
 
 
 def user_login(request):

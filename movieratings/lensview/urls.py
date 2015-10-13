@@ -23,5 +23,9 @@ urlpatterns = [
         lv.edit_rating, name='edit_rating'),
     url(r'^users/(?P<rater_id>\d+)/delete-rating/(?P<movie_id>\d+)$',
         lv.delete_rating, name='delete_rating'),
+    url(r'^top-20/num-ratings$', lv.top_20_by_num_ratings,
+        name='top_20_by_num_ratings'),
+    # url(r'^top-20/highest-rated$', lv.top_20,
+    #     name='top_20_by_num_ratings'),
     url(r'^$', lv.top_20, name='top_20')
 ]
