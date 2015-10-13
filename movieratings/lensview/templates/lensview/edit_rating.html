@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Edit rating for: {{ movie.title }}{% endblock %}
+
+{% block content %}
+<h1>Edit rating for: {{ movie.title }}</h1>
+
+<p>
+  <a href="{% url 'movie_detail' rating.movie.pk %}"
+      >{{ movie.title }}</a> {{ rating.stars }}&#9733; <small
+      >({{ rating.timestamp }})</small>
+      {% if rating.review %}
+      <span class="review">{{ rating.review }}</span>
+      {% endif %}
+</p>
+<form method="POST" action="{% url 'edit_rating' user.rater.pk movie.pk  %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Submit New Rating">
+</form>
+{% endblock %}

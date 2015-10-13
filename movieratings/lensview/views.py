@@ -1,8 +1,9 @@
-from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from datetime import datetime
 from .forms import UserForm, RaterForm, RatingForm
 from .models import Rater, Movie, Rating
@@ -11,7 +12,7 @@ from .models import Rater, Movie, Rating
 
 
 def movie_detail(request, movie_id):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated():
         form = RatingForm(request.POST)
         if form.is_valid():
             rating = form.save(commit=False)
@@ -24,7 +25,7 @@ def movie_detail(request, movie_id):
             messages.add_message(request,
                                  messages.ERROR,
                                  'Star rating must be between 1 and 5')
-    movie = Movie.objects.get(pk=movie_id)
+    movie = get_object_or_404(Movie, pk=movie_id)
     ratings = movie.rating_set.all()
     user_stars = None
     if request.user.is_authenticated():
@@ -53,12 +54,46 @@ def movie_detail(request, movie_id):
 
 
 def user_detail(request, rater_id):
-    rater = Rater.objects.get(pk=rater_id)
+    rater = get_object_or_404(Rater, pk=rater_id)
     ratings = rater.rating_set.all().order_by('-stars')
     return render(request,
                   'lensview/user_detail.html',
                   {'rater': rater,
                    'ratings': ratings})
+
+
+@login_required
+def edit_rating(request, rater_id, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    # if request.user.rater.pk != rater_id:
+    #     messages.add_message(request, messages.ERROR,
+    #                          'You must be logged in to edit')
+    #     return redirect('user_detail', rater_id)
+    try:
+        rating = Rating.objects.all().filter(rater=request.user.rater,
+                                             movie=movie)[0]
+    except:
+        messages.add_messages(request, messages.ERROR,
+                              'No rating exists to change')
+        return redirect('user_detail', request.user.rater.pk)
+
+    if request.method == 'GET':
+        form = RatingForm(instance=rating)
+    elif request.method == 'POST':
+        form = RatingForm(instance=rating, data=request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.rater = request.user.rater
+            rating.movie = movie
+            rating.timestamp = datetime.now()
+            rating.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Updated rating for {}'.format(movie))
+    return render(request,
+                  'lensview/edit_rating.html',
+                  {'movie': movie,
+                   'rating': rating,
+                   'form': form})
 
 
 def top_20(request):
