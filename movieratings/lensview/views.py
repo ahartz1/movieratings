@@ -65,10 +65,12 @@ def user_detail(request, rater_id):
 @login_required
 def edit_rating(request, rater_id, movie_id):
     movie = get_object_or_404(Movie, pk=movie_id)
+    # TODO: Figure out why the below doesn't work
     # if request.user.rater.pk != rater_id:
     #     messages.add_message(request, messages.ERROR,
     #                          'You must be logged in to edit')
     #     return redirect('user_detail', rater_id)
+
     try:
         rating = Rating.objects.all().filter(rater=request.user.rater,
                                              movie=movie)[0]
@@ -94,6 +96,19 @@ def edit_rating(request, rater_id, movie_id):
                   {'movie': movie,
                    'rating': rating,
                    'form': form})
+
+
+@login_required
+def delete_rating(request, rater_id, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    try:
+        Rating.objects.all().filter(rater=request.user.rater,
+                                    movie=movie).delete()
+
+    except:
+        messages.add_messages(request, messages.ERROR,
+                              'No rating exists to delete')
+    return redirect('user_detail', request.user.rater.pk)
 
 
 def top_20(request):

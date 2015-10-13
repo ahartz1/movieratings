@@ -32,6 +32,9 @@
     <li><a href="{% url 'user_detail' rating.rater.pk %}"
       >{{ rating.rater.user.username }}<a> {{ rating.stars }}&#9733;
         <small>({{ rating.timestamp }})</small>
+        {% if rating.review %}
+        <span>{{ rating.review }}</span>
+        {% endif %}
     </li>
   {% endfor %}
 </ul>
