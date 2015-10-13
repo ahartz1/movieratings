@@ -16,7 +16,7 @@ class Rater(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER)
     age = models.SmallIntegerField()
     occupation = models.CharField(max_length=255)
-    zipcode = models.CharField(max_length=5)
+    zipcode = models.CharField(max_length=10)
     user = models.OneToOneField(User, null=True)
 
     def __str__(self):

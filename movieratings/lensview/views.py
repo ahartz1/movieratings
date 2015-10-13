@@ -27,6 +27,7 @@ def movie_detail(request, movie_id):
                                  'Star rating must be between 1 and 5')
     movie = get_object_or_404(Movie, pk=movie_id)
     ratings = movie.rating_set.all()
+    ratings = ratings.prefetch_related('rater__user')
     user_stars = None
     if request.user.is_authenticated():
         try:
@@ -56,6 +57,7 @@ def movie_detail(request, movie_id):
 def user_detail(request, rater_id):
     rater = get_object_or_404(Rater, pk=rater_id)
     ratings = rater.rating_set.all().order_by('-stars')
+    # ratings = ratings.prefetch_related('rater')
     return render(request,
                   'lensview/user_detail.html',
                   {'rater': rater,
