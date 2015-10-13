@@ -18,11 +18,13 @@
 <ul>
   {% for rating in ratings %}
     <li><a href="{% url 'movie_detail' rating.movie.pk %}"
-      >{{ rating.movie.title }}</a>
+      >{{ rating.movie.title }}</a> {{ rating.stars }}&#9733;
       {% if rater == user.rater and user.is_authenticated %}
-        <a href="{% url 'edit_rating' rater.pk rating.movie.pk %}">
-          {{ rating.stars }}&#9733;
-        </a><a href="{% url 'delete_rating' user.rater.pk rating.movie.pk %}">Delete</a>
+        <a href="{% url 'edit_rating' rater.pk rating.movie.pk %}"
+          >Edit
+        </a> | 
+        <a href="{% url 'delete_rating' user.rater.pk rating.movie.pk %}"
+        >Delete</a>
       {% else %}
         {{ rating.stars }}&#9733;
       {% endif %}
