@@ -4,8 +4,8 @@
 
 {% block content %}
 <h1>Top 20 Movies by {{ top_type }}</h1>
-{% if top_type == 'num_raters' %}
-  <p><a href="{% url 'top_20' %}">Top 20 by Rating</a></p>
+{% if top_type == 'Number of Raters' %}
+  <p><a href="{% url 'top_20' %}">Top 20 by Average Rating</a></p>
 {% else %}
   <p><a href="{% url 'top_20_by_num_ratings' %}">
     Top 20 by Number of Ratings

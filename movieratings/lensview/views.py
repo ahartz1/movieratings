@@ -124,7 +124,7 @@ def top_20(request):
     return render(request,
                   'lensview/top_20.html',
                   {'top_movies': top_movies,
-                   'top_type': 'avg_rating'})
+                   'top_type': 'Average Rating'})
 
 
 def top_20_by_num_ratings(request):
@@ -133,7 +133,7 @@ def top_20_by_num_ratings(request):
     return render(request,
                   'lensview/top_20.html',
                   {'top_movies': most_rated,
-                   'top_type': 'num_raters'})
+                   'top_type': 'Number of Raters'})
 
 
 def user_login(request):
