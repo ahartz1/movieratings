@@ -1,7 +1,10 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
+from datetime import datetime
 from .forms import UserForm, RaterForm, RatingForm
 from .models import Rater, Movie, Rating
 
@@ -9,16 +12,22 @@ from .models import Rater, Movie, Rating
 
 
 def movie_detail(request, movie_id):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.user.is_authenticated():
         form = RatingForm(request.POST)
         if form.is_valid():
             rating = form.save(commit=False)
             rating.rater = request.user.rater
             rating.movie = Movie.objects.get(pk=movie_id)
+            rating.timestamp = datetime.now()
             rating.save()
             return redirect('movie_detail', rating.movie.pk)
-    movie = Movie.objects.get(pk=movie_id)
+        else:
+            messages.add_message(request,
+                                 messages.ERROR,
+                                 'Star rating must be between 1 and 5')
+    movie = get_object_or_404(Movie, pk=movie_id)
     ratings = movie.rating_set.all()
+    ratings = ratings.prefetch_related('rater__user')
     user_stars = None
     if request.user.is_authenticated():
         try:
@@ -46,12 +55,64 @@ def movie_detail(request, movie_id):
 
 
 def user_detail(request, rater_id):
-    rater = Rater.objects.get(pk=rater_id)
+    rater = get_object_or_404(Rater, pk=rater_id)
     ratings = rater.rating_set.all().order_by('-stars')
+    # ratings = ratings.prefetch_related('rater')
     return render(request,
                   'lensview/user_detail.html',
                   {'rater': rater,
                    'ratings': ratings})
+
+
+@login_required
+def edit_rating(request, rater_id, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    if request.user.rater.pk != int(rater_id):
+        messages.add_message(request, messages.ERROR,
+                             'You must be logged in to edit')
+        return redirect('user_detail', rater_id)
+
+    try:
+        rating = Rating.objects.all().filter(rater=request.user.rater,
+                                             movie=movie)[0]
+    except:
+        messages.add_messages(request, messages.ERROR,
+                              'No rating exists to change')
+        return redirect('user_detail', request.user.rater.pk)
+
+    if request.method == 'GET':
+        form = RatingForm(instance=rating)
+    elif request.method == 'POST':
+        form = RatingForm(instance=rating, data=request.POST)
+        if form.is_valid():
+            rating = form.save(commit=False)
+            rating.rater = request.user.rater
+            rating.movie = movie
+            rating.timestamp = datetime.now()
+            rating.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Updated rating for {}'.format(movie))
+    return render(request,
+                  'lensview/edit_rating.html',
+                  {'movie': movie,
+                   'rating': rating,
+                   'form': form})
+
+
+@login_required
+def delete_rating(request, rater_id, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    if request.user.rater.pk != int(rater_id):
+        messages.add_message(request, messages.ERROR,
+                             'You must be logged in to delete')
+    try:
+        Rating.objects.all().filter(rater=request.user.rater,
+                                    movie=movie).delete()
+
+    except:
+        messages.add_messages(request, messages.ERROR,
+                              'No rating exists to delete')
+    return redirect('user_detail', request.user.rater.pk)
 
 
 def top_20(request):
@@ -66,7 +127,17 @@ def top_20(request):
 
     return render(request,
                   'lensview/top_20.html',
-                  {'top_movies': top_movies})
+                  {'top_movies': top_movies,
+                   'top_type': 'Average Rating'})
+
+
+def top_20_by_num_ratings(request):
+    most_rated = Movie.objects.annotate(num_raters=Count('rating')) \
+        .annotate(avg_rating=Avg('rating__stars')).order_by('-num_raters')[:20]
+    return render(request,
+                  'lensview/top_20.html',
+                  {'top_movies': most_rated,
+                   'top_type': 'Number of Raters'})
 
 
 def user_login(request):
@@ -105,6 +176,9 @@ def user_register(request):
 
             user = authenticate(username=user.username, password=password)
             login(request, user)
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your account was successfully created.')
             return redirect('top_20')
     else:
         user_form = UserForm()
@@ -119,6 +193,8 @@ def user_logout(request):
     if request.user.is_authenticated():
         user_name = request.user.username
         logout(request)
+        messages.add_message(request, messages.SUCCESS,
+                             "You have successfully logged out")
         return render(request,
                       'lensview/user_logout.html',
                       {'user_name': user_name})
