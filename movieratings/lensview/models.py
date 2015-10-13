@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 # Create your models here.
 
@@ -33,6 +34,11 @@ class Movie(models.Model):
         return self.rating_set.aggregate(models.Avg('stars'))['stars__avg']
 
 
+def is_valid_stars(value):
+    if not (1 <= value <= 5):
+        raise ValidationError('Star value must be between 1 and 5')
+
+
 class Rating(models.Model):
     rater = models.ForeignKey(Rater)
     movie = models.ForeignKey(Movie)
@@ -40,8 +46,10 @@ class Rating(models.Model):
                                               (2, u'\u2605' * 2),
                                               (3, u'\u2605' * 3),
                                               (4, u'\u2605' * 4),
-                                              (5, u'\u2605' * 5),
-                                              ])
+                                              (5, u'\u2605' * 5)],
+                                     validators=[is_valid_stars])
+    timestamp = models.DateTimeField()
+    review = models.TextField(max_length=511, null=True, blank=True)
 
     def __str__(self):
         return '@{}: {}\u2605 -> {}'.format(
@@ -52,24 +60,3 @@ class Rating(models.Model):
 
     def movie_title(self):
         return self.movie.title
-
-
-def make_raters_users():
-    from faker import Faker
-    from random import choice
-
-    fake = Faker()
-
-    for rater in Rater.objects.all():
-        if rater.user is None:
-            while True:
-                fake_username = fake.user_name() + choice(list('0123456789'))
-                try:
-                    rater.user = User.objects.create_user(fake_username,
-                                                          fake.email(),
-                                                          'password')
-                    rater.save()
-                    break
-                except:
-                    continue
-#

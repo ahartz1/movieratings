@@ -19,5 +19,7 @@ from . import views as lv
 urlpatterns = [
     url(r'^movies/(?P<movie_id>\d+)$', lv.movie_detail, name='movie_detail'),
     url(r'^users/(?P<rater_id>\d+)$', lv.user_detail, name='user_detail'),
+    url(r'^users/(?P<rater_id>\d+)/edit/(?P<movie_id>\d+)$',
+        lv.edit_rating, name='edit_rating'),
     url(r'^$', lv.top_20, name='top_20')
 ]

@@ -31,6 +31,7 @@
   {% for rating in ratings %}
     <li><a href="{% url 'user_detail' rating.rater.pk %}"
       >{{ rating.rater.user.username }}<a> {{ rating.stars }}&#9733;
+        <small>({{ rating.timestamp }})</small>
     </li>
   {% endfor %}
 </ul>

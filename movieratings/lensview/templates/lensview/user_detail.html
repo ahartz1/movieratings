@@ -17,7 +17,19 @@
 
 <ul>
   {% for rating in ratings %}
-    <li><a href="{% url 'movie_detail' rating.movie.pk %}">{{ rating.movie.title }}</a> {{ rating.stars }}&#9733;</li>
+    <li><a href="{% url 'movie_detail' rating.movie.pk %}"
+      >{{ rating.movie.title }}</a>
+      {% if rater == user.rater and user.is_authenticated %}
+        <a href="{% url 'edit_rating' rater.pk rating.movie.pk %}">
+          {{ rating.stars }}&#9733;
+        </a>
+      {% else %}
+        {{ rating.stars }}&#9733;
+      {% endif %}
+      <small>({{ rating.timestamp }})</small>
+      {% if rating.review %}
+      <span class="review">{{ rating.review }}</span>
+      {% endif %}</li>
   {% endfor %}
 </ul>
 {% endblock %}
