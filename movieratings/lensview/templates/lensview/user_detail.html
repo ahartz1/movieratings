@@ -22,11 +22,9 @@
       {% if rater == user.rater and user.is_authenticated %}
         <a href="{% url 'edit_rating' rater.pk rating.movie.pk %}"
           >Edit
-        </a> | 
+        </a> |
         <a href="{% url 'delete_rating' user.rater.pk rating.movie.pk %}"
         >Delete</a>
-      {% else %}
-        {{ rating.stars }}&#9733;
       {% endif %}
       <small>({{ rating.timestamp }})</small>
       {% if rating.review %}
