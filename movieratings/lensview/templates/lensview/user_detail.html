@@ -3,33 +3,61 @@
 {% block title %}{{ rater.user.username }}{% endblock %}
 
 {% block content %}
-<h1>{{ rater.user.username }}</h1>
-  <dl>
-    <dt>Gender</dt>
-    <dd>{{ rater.gender }}</dd>
-    <dt>Age</dt>
-    <dd>{{ rater.age }}</dd>
-    <dt>Occupation</dt>
-    <dd>{{ rater.occupation }}</dd>
-    <dt>Zipcode</dt>
-    <dd>{{ rater.zipcode }}</dd>
-  </dl>
-
-<ul>
+<div class="row">
+  <div class="col-md-4 profile-highlight">
+    <h1>{{ rater.user.username }}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-1 profile-highlight">
+    <dl>
+      <dt>Gender</dt>
+      <dd>{{ rater.gender }}</dd>
+    </dl>
+  </div>
+  <div class="col-md-1 profile-highlight">
+    <dl>
+      <dt>Age</dt>
+      <dd>{{ rater.age }}</dd>
+    </dl>
+  </div>
+  <div class="col-md-1 profile-highlight">
+    <dl>
+      <dt>Occupation</dt>
+      <dd>{{ rater.occupation }}</dd>
+    </dl>
+  </div>
+  <div class="col-md-1 profile-highlight">
+    <dl>
+      <dt>Zipcode</dt>
+      <dd>{{ rater.zipcode }}</dd>
+    </dl>
+  </div>
+</div>
+<div>
+  <br>
+  <h3>Rated Movies</h3>
+</div>
+<table class="table">
+  <tr>
+    <th>Movie Title</th>
+    <th>Rating</th>
+    <th>Rating Date</th>
+    <th>Review</th>
+  </tr>
   {% for rating in ratings %}
-    <li><a href="{% url 'movie_detail' rating.movie.pk %}"
-      >{{ rating.movie.title }}</a> {{ rating.stars }}&#9733;
+    <tr>
+      <td><a href="{% url 'movie_detail' rating.movie.pk %}">{{ rating.movie.title }}</a></td>
+      <td>{{ rating.stars }}&#9733;
       {% if rater == user.rater and user.is_authenticated %}
-        <a href="{% url 'edit_rating' rater.pk rating.movie.pk %}"
-          >Edit
-        </a> |
-        <a href="{% url 'delete_rating' user.rater.pk rating.movie.pk %}"
-        >Delete</a>
+        <a href="{% url 'edit_rating' rater.pk rating.movie.pk %}"> Edit</a> | <a href="{% url 'delete_rating' user.rater.pk rating.movie.pk %}">Delete</a>
       {% endif %}
-      <small>({{ rating.timestamp }})</small>
+      </td>
+      <td><small class="text-muted">({{ rating.timestamp|date:"d M Y" }})</small></td>
       {% if rating.review %}
-      <span class="review">{{ rating.review }}</span>
-      {% endif %}</li>
+      <td><span class="review">{{ rating.review }}</span></td>
+      {% endif %}
+    </tr>
   {% endfor %}
-</ul>
+</table>
 {% endblock %}

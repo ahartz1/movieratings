@@ -1,3 +1,8 @@
-/*body {
-  font-family: sans-serif;
-}*/
+.profile-highlight {
+  background-color: #DDD;
+}
+
+.profile-highlight.col-md-4 {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
