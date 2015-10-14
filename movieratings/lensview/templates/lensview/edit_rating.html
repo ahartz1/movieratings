@@ -21,7 +21,7 @@
 <form method="POST" action="{% url 'edit_rating' user.rater.pk movie.pk  %}">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" value="Submit New Rating">
+  <input type="submit" value="Submit New Rating" class="btn btn-default">
 </form>
 <br>
 </div>

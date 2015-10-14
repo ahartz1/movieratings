@@ -13,9 +13,43 @@ class Rater(models.Model):
         (FEMALE, 'Female')
     )
 
+    AGE = (
+        (1, "Under 18"),
+        (18, "18-24"),
+        (25, "25-34"),
+        (35, "35-44"),
+        (45, "45-49"),
+        (50, "50-55"),
+        (56, "56+"),
+    )
+
+    OCCUPATION = (
+        (0, '"other" or not specified'),
+        (1, "academic/educator"),
+        (2, "artist"),
+        (3, "clerical/admin"),
+        (4, "college/grad student"),
+        (5, "customer service"),
+        (6, "doctor/health care"),
+        (7, "executive/managerial"),
+        (8, "farmer"),
+        (9, "homemaker"),
+        (10, "K-12 student"),
+        (11, "lawyer"),
+        (12, "programmer"),
+        (13, "retired"),
+        (14, "sales/marketing"),
+        (15, "scientist"),
+        (16, "self-employed"),
+        (17, "technician/engineer"),
+        (18, "tradesman/craftsman"),
+        (19, "unemployed"),
+        (20, "writer"),
+    )
+
     gender = models.CharField(max_length=1, choices=GENDER)
-    age = models.SmallIntegerField()
-    occupation = models.CharField(max_length=255)
+    age = models.SmallIntegerField(choices=AGE)
+    occupation = models.CharField(max_length=255, choices=OCCUPATION)
     zipcode = models.CharField(max_length=10)
     user = models.OneToOneField(User, null=True)
 
