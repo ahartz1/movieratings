@@ -18,7 +18,9 @@
 
 * You will need to download the [MovieLens 1M](http://files.grouplens.org/datasets/movielens/ml-1m.zip) dataset. Unzip the downloaded file and move the folder into `movieratings/movieratings` (the same directory as `manage.py`). It should be named `ml-1m`.
 
-* **To load the data**, you will need to run some shell commands. Navigate to the `movieratings/movieratings` folder and confirm that you see the `manage.py` file. Then run the following lines **in order**:
+* This app is set up to run on PostgreSQL. I have set it up to have a database named `movieratings` with a user of `movieratings` and a password of `password`. The database name, user, and password can all be configured to your preferences in the `movieratings/movieratings/movieratings/settings.py` file. If you do not have PostgreSQL on your machine, follow [these instructions](https://github.com/tiyd-python-2015-08/course-resources/blob/master/week7/PostgreSQL-and-Django.md).
+
+* **To load the data**, you will need to run some shell commands. Navigate to the `movieratings/movieratings` folder and confirm that you see the `manage.py` file. Then run the following lines **in order** (the last two each take a very long time):
 ```
 $ python manage.py ml_to_json
 $ python manage.py migrate
@@ -35,4 +37,4 @@ Located at `localhost/movies/movie_id`, where `localhost` is the location of you
 Located at `localhost/raters/rater_id`, where `localhost` is the location of your django server and `rater_id` is the actual movie id in the database.
 
 ### Top 20 Page
-Located at `localhost/`, where `localhost` is the location of your django server.
+Located at `localhost/`, where `localhost` is the location of your django server. Shows the top 20 movies by average rating, but you can choose to show the top 20 most rated movies.
