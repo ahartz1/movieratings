@@ -1,8 +1,8 @@
-.profile-highlight {
-  background-color: #DDD;
+.item-highlight {
+  background-color: #D5D5D5;
 }
 
-.profile-highlight.col-md-4 {
+.item-highlight.top {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }

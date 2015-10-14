@@ -1,7 +1,8 @@
 Django
-fake-factory
+django-bootstrap3
+django-bootstrap-themes
 django-debug-toolbar
 django-extensions
-werkzeug
+fake-factory
 psycopg2
-django-bootstrap3
+werkzeug

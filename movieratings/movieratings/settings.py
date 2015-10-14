@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'bootstrap_themes',
     'debug_toolbar',  # comment this out if you dont' want a debug toolbar
     'lensview'
 )

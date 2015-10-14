@@ -5,21 +5,19 @@
 {% block content %}
 <h1>Top 20 Movies by {{ top_type }}</h1>
 <p>
-{% if top_type == 'Number of Raters' %}
-  <a class="btn btn-default" href="#" role="button">Link</a>
-  <a class="btn btn-default" href="{% url 'top_20' %}">Top 20 by Average Rating</a>
-{% else %}
-  <a class="btn btn-default" href="{% url 'top_20_by_num_ratings' %}">
-    Top 20 by Number of Ratings
-  </a>
-{% endif %}
 <br>
 </p>
-<ul>
+<table class="table">
+  <tr>
+    <th>Movie</th>
+    <th>Rating</th>
+    <th>Number of Ratings</th>
+  </tr>
   {% for movie in top_movies %}
-    <li><a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a>
-      {{ movie.avg_rating|floatformat:1 }}&#9733;
-      ({{ movie.num_raters }} rater{{ movie.num_raters|pluralize }})</li>
+    <tr>
+      <td><a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a></td>
+      <td>{{ movie.avg_rating|floatformat:1 }}&#9733;</td>
+      <td>{{ movie.num_raters }}</td></tr>
   {% endfor %}
-</ul>
+</table>
 {% endblock %}
