@@ -57,7 +57,7 @@ def movie_detail(request, movie_id):
 def user_detail(request, rater_id):
     rater = get_object_or_404(Rater, pk=rater_id)
     ratings = rater.rating_set.all().order_by('-stars')
-    # ratings = ratings.prefetch_related('rater')
+    ratings = ratings.prefetch_related('movie')
     return render(request,
                   'lensview/user_detail.html',
                   {'rater': rater,
