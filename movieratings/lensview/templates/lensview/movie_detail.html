@@ -43,14 +43,14 @@
   <tr>
     <th>Rater</th>
     <th>Rating</th>
-    <th>Timestamp</th>
+    <th>Rating Date</th>
     <th>Review</th>
   </tr>
   {% for rating in ratings %}
     <tr>
       <td><b><a href="{% url 'user_detail' rating.rater.pk %}">{{ rating.rater.user.username }}</a></b></td>
       <td><b>{{ rating.stars }}</b>&#9733;</td>
-      <td>{{ rating.timestamp }}<td>
+      <td>{{ rating.timestamp|date:"d M Y" }}<td>
         {% if rating.review %}
         <td>{{ rating.review }}</td>
         {% endif %}
