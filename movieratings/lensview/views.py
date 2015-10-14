@@ -118,7 +118,7 @@ def delete_rating(request, rater_id, movie_id):
 
 
 class TopMoviesByAvgListView(generic.ListView):
-    template_name = 'lensview/top_20.html'
+    template_name = 'lensview/top_movies.html'
     context_object_name = 'movies'
     paginate_by = 20
     top_type = 'Average Rating'
@@ -130,7 +130,7 @@ class TopMoviesByAvgListView(generic.ListView):
 
 
 class TopMoviesByNumListView(generic.ListView):
-    template_name = 'lensview/top_20.html'
+    template_name = 'lensview/top_movies.html'
     context_object_name = 'movies'
     paginate_by = 20
     top_type = 'Number of Ratings'
