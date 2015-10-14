@@ -3,8 +3,13 @@
 {% block title %}Edit rating for: {{ movie.title }}{% endblock %}
 
 {% block content %}
-<h1>Edit rating for: {{ movie.title }}</h1>
-
+<div class="row">
+  <div class="col-md-8 item-highlight top">
+    <h1>Edit rating for: {{ movie.title }}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8 item-highlight">
 <p>
   <a href="{% url 'movie_detail' rating.movie.pk %}"
       >{{ movie.title }}</a> {{ rating.stars }}&#9733; <small
@@ -18,4 +23,7 @@
   {{ form.as_p }}
   <input type="submit" value="Submit New Rating">
 </form>
+<br>
+</div>
+</div>
 {% endblock %}
