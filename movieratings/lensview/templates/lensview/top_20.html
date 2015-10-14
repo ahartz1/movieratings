@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load bootstrap3 %}
 
-{% block title %}Top 20 Movies by {{ top_type }}{% endblock %}
+{% block title %}Top 20 Movies by {{ view.top_type }}{% endblock %}
 
 {% block content %}
 <div class="row">
 <div class="col-md-8 item-highlight top">
-  <h1>Top 20 Movies by {{ top_type }}</h1>
+  <h1>Top 20 Movies by {{ view.top_type }}</h1>
 </div>
 </div>
 <br>
@@ -17,12 +18,15 @@
     <th>Rating</th>
     <th>Number of Ratings</th>
   </tr>
-  {% for movie in top_movies %}
+  {% for movie in movies %}
     <tr>
-      <td>{{ forloop.counter }}</td>
+      <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
       <td><b><a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a></b></td>
       <td><b>{{ movie.avg_rating|floatformat:1 }}<b>&#9733;</td>
       <td>{{ movie.num_raters }}</td></tr>
   {% endfor %}
 </table>
+<div class="text-center">
+  {% bootstrap_pagination page_obj pages_to_show=5%}
+</div>
 {% endblock %}

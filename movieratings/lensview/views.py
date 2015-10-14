@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
 from django.shortcuts import redirect, render, get_object_or_404
+from django.views import generic
 from datetime import datetime
 from .forms import UserForm, RaterForm, RatingForm
 from .models import Rater, Movie, Rating
+
 
 # Create your views here.
 
@@ -115,30 +117,30 @@ def delete_rating(request, rater_id, movie_id):
     return redirect('user_detail', request.user.rater.pk)
 
 
-def top_20(request):
-    # First, make a list of movies that have more than 150 ratings
-    popular_movies = Movie.objects.annotate(num_raters=Count('rating')).filter(
-        num_raters__gte=150)
+class TopMoviesByAvgListView(generic.ListView):
+    template_name = 'lensview/top_20.html'
+    context_object_name = 'movies'
+    paginate_by = 20
+    top_type = 'Average Rating'
 
-    # Next, look at all ratings, calculate average for each movie,
-    # order by new field 'avg_rating'
-    top_movies = popular_movies.annotate(avg_rating=Avg('rating__stars')) \
-        .order_by('-avg_rating')[:20]
-
-    return render(request,
-                  'lensview/top_20.html',
-                  {'top_movies': top_movies,
-                   'top_type': 'Average Rating'})
+    def get_queryset(self):
+        return Movie.objects.annotate(num_raters=Count('rating')).filter(
+            num_raters__gte=150).annotate(avg_rating=Avg('rating__stars')) \
+            .order_by('-avg_rating')
 
 
-def top_20_by_num_ratings(request):
-    most_rated = Movie.objects.annotate(num_raters=Count('rating')) \
-        .annotate(avg_rating=Avg('rating__stars')).order_by('-num_raters')[:20]
-    return render(request,
-                  'lensview/top_20.html',
-                  {'top_movies': most_rated,
-                   'top_type': 'Number of Raters'})
+class TopMoviesByNumListView(generic.ListView):
+    template_name = 'lensview/top_20.html'
+    context_object_name = 'movies'
+    paginate_by = 20
+    top_type = 'Number of Ratings'
 
+    def get_queryset(self):
+        return Movie.objects.annotate(num_raters=Count('rating')) \
+            .annotate(avg_rating=Avg('rating__stars')).order_by('-num_raters')
+
+
+# USER FUNCTIONS: LOGIN, REGISTER, LOGOUT
 
 def user_login(request):
     if request.method == 'POST':

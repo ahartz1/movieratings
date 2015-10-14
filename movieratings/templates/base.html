@@ -26,7 +26,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'top_20' %}">MovieLens 1M Database Viewer</a>
+        <a class="navbar-brand" href="{% url 'top_by_avg_ratings' %}">MovieLens 1M Database Viewer</a>
       </div>
 
       <!-- <form class="navbar-form navbar-left" role="search">
@@ -39,10 +39,10 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top 20s <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top Movies <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="{% url 'top_20' %}">Top 20 by Average Rating</a></li>
-          <li><a href="{% url 'top_20_by_num_ratings' %}">Top 20 by Most Ratings</a></li>
+          <li><a href="{% url 'top_by_avg_ratings' %}">Movies by Average Rating</a></li>
+          <li><a href="{% url 'top_by_num_ratings' %}">Movies by Most Ratings</a></li>
         </ul>
           {% if user.is_authenticated %}
           <li role="presentation">
