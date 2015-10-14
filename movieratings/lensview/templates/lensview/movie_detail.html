@@ -37,18 +37,19 @@
   </div>
 </div>
 {% endif %}
-
-<table class="table">
+<br>
+<h3>User Ratings</h3>
+<table class="table table-striped">
   <tr>
-    <th>Movie</th>
+    <th>Rater</th>
     <th>Rating</th>
     <th>Timestamp</th>
     <th>Review</th>
   </tr>
   {% for rating in ratings %}
     <tr>
-      <td><a href="{% url 'user_detail' rating.rater.pk %}">{{ rating.rater.user.username }}</a></td>
-      <td>{{ rating.stars }}&#9733;</td>
+      <td><b><a href="{% url 'user_detail' rating.rater.pk %}">{{ rating.rater.user.username }}</a></b></td>
+      <td><b>{{ rating.stars }}</b>&#9733;</td>
       <td>{{ rating.timestamp }}<td>
         {% if rating.review %}
         <td>{{ rating.review }}</td>

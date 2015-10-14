@@ -38,7 +38,7 @@
   <br>
   <h3>Rated Movies</h3>
 </div>
-<table class="table">
+<table class="table table-striped">
   <tr>
     <th>Movie Title</th>
     <th>Rating</th>
@@ -47,13 +47,13 @@
   </tr>
   {% for rating in ratings %}
     <tr>
-      <td><a href="{% url 'movie_detail' rating.movie.pk %}">{{ rating.movie.title }}</a></td>
-      <td>{{ rating.stars }}&#9733;
+      <td><b><a href="{% url 'movie_detail' rating.movie.pk %}">{{ rating.movie.title }}</a></b></td>
+      <td><b>{{ rating.stars }}</b>&#9733;
       {% if rater == user.rater and user.is_authenticated %}
         <a href="{% url 'edit_rating' rater.pk rating.movie.pk %}"> Edit</a> | <a href="{% url 'delete_rating' user.rater.pk rating.movie.pk %}">Delete</a>
       {% endif %}
       </td>
-      <td><small class="text-muted">({{ rating.timestamp|date:"d M Y" }})</small></td>
+      <td class="text-muted">{{ rating.timestamp|date:"d M Y" }}</td>
       {% if rating.review %}
       <td><span class="review">{{ rating.review }}</span></td>
       {% endif %}

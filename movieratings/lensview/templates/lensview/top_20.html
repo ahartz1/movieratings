@@ -7,16 +7,18 @@
 <p>
 <br>
 </p>
-<table class="table">
+<table class="table table-striped">
   <tr>
+    <th/>
     <th>Movie</th>
     <th>Rating</th>
     <th>Number of Ratings</th>
   </tr>
   {% for movie in top_movies %}
     <tr>
-      <td><a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a></td>
-      <td>{{ movie.avg_rating|floatformat:1 }}&#9733;</td>
+      <td>{{ forloop.counter }}</td>
+      <td><b><a href="{% url 'movie_detail' movie.pk %}">{{ movie.title }}</a></b></td>
+      <td><b>{{ movie.avg_rating|floatformat:1 }}<b>&#9733;</td>
       <td>{{ movie.num_raters }}</td></tr>
   {% endfor %}
 </table>
