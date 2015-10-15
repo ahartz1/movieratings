@@ -26,6 +26,7 @@ $ python manage.py ml_to_json
 $ python manage.py migrate
 $ python manage.py loaddata users movies ratings
 $ python manage.py make_raters_users
+$ python manage.py update_movies
 ```
 
 * **Running the site** requires more command line. Navigate to `movieratings/movieratings` and enter `python manage.py runserver` This will take over the current command-line program's window until you stop the server. Kill the process by pressing `Ctrl+C` or quitting the command-line program entirely.
