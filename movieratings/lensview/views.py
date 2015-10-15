@@ -154,9 +154,8 @@ class TopMoviesByAvgListView(generic.ListView):
     top_type = 'Average Rating'
 
     def get_queryset(self):
-        return Movie.objects.annotate(num_raters=Count('rating')).filter(
-            num_raters__gte=150).annotate(avg_rating=Avg('rating__stars')) \
-            .order_by('-avg_rating')
+        return Movie.objects.all().filter(
+            num_raters__gte=150).order_by('-avg_rating')
 
 
 class TopMoviesByNumListView(generic.ListView):
@@ -166,8 +165,7 @@ class TopMoviesByNumListView(generic.ListView):
     top_type = 'Number of Ratings'
 
     def get_queryset(self):
-        return Movie.objects.annotate(num_raters=Count('rating')) \
-            .annotate(avg_rating=Avg('rating__stars')).order_by('-num_raters')
+        return Movie.objects.all().order_by('-num_raters')
 
 
 # USER FUNCTIONS: LOGIN, REGISTER, LOGOUT

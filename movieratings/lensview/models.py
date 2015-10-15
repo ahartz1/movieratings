@@ -15,11 +15,11 @@ class Rater(models.Model):
 
     AGE = (
         (1, "Under 18"),
-        (18, "18-24"),
-        (25, "25-34"),
-        (35, "35-44"),
-        (45, "45-49"),
-        (50, "50-55"),
+        (18, "18–24"),
+        (25, "25–34"),
+        (35, "35–44"),
+        (45, "45–49"),
+        (50, "50–55"),
         (56, "56+"),
     )
 
@@ -34,7 +34,7 @@ class Rater(models.Model):
         (7, "executive/managerial"),
         (8, "farmer"),
         (9, "homemaker"),
-        (10, "K-12 student"),
+        (10, "K–12 student"),
         (11, "lawyer"),
         (12, "programmer"),
         (13, "retired"),
@@ -60,12 +60,20 @@ class Rater(models.Model):
 class Movie(models.Model):
     title = models.CharField(max_length=255)
     genres = models.CharField(max_length=255)
+    avg_rating = models.FloatField(null=True, blank=True)
+    num_raters = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return str(self.pk)
 
     def average_rating(self):
         return self.rating_set.aggregate(models.Avg('stars'))['stars__avg']
+
+    def save(self):
+        super(Movie, self).save()
+        self.avg_rating = self.average_rating()
+        self.num_raters = self.rating_set.all().count()
+        super(Movie, self).save()
 
 
 def is_valid_stars(value):
@@ -88,6 +96,10 @@ class Rating(models.Model):
     def __str__(self):
         return '@{}: {}\u2605 -> {}'.format(
             self.rater, self.stars, self.movie.title)
+
+    def save(self):
+        super(Rating, self).save()
+        Movie.objects.get(pk=self.movie_id).save()
 
     def rater_username(self):
         return self.rater.user.username
