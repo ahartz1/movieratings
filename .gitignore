@@ -6,3 +6,4 @@ movieratings/ml-1m/
 *__pycache__/
 *.sqlite3
 *.json
+*SLOWrater_detail.html

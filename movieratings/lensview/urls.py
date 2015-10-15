@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^raters/(?P<rater_id>\d+)$', lv.rater_detail, name='rater_detail'),
     # url(r'^raters/(?P<pk>\d+)$',
     #     lv.RaterDetailListView.as_view(),
-    #     name='rater_detail'),
+    #     name='slow_rater_detail'),
     url(r'^raters/(?P<rater_id>\d+)/edit-rating/(?P<movie_id>\d+)$',
         lv.edit_rating, name='edit_rating'),
     url(r'^raters/(?P<rater_id>\d+)/delete-rating/(?P<movie_id>\d+)$',

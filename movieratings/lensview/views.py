@@ -90,7 +90,7 @@ def rater_detail(request, rater_id):
         ratings = paginator.page(paginator.num_pages)
 
     return render(request,
-                  'lensview/user_detail.html',
+                  'lensview/rater_detail.html',
                   {'rater': rater,
                    'num_rated': num_rated,
                    'ratings': ratings})
