@@ -46,7 +46,7 @@
         </ul>
           {% if user.is_authenticated %}
           <li role="presentation">
-            <a href="{% url 'user_detail' user.rater.pk %}">{{ user.username }}</a>
+            <a href="{% url 'rater_detail' user.rater.pk %}">{{ user.username }}</a>
           </li>
           <li role="presentation">
             <a href="{% url 'user_logout' %}">Logout</a>

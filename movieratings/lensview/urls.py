@@ -18,16 +18,17 @@ from . import views as lv
 
 urlpatterns = [
     url(r'^movies/(?P<movie_id>\d+)$', lv.movie_detail, name='movie_detail'),
-    url(r'^users/(?P<rater_id>\d+)$', lv.user_detail, name='user_detail'),
-    url(r'^users/(?P<rater_id>\d+)/edit-rating/(?P<movie_id>\d+)$',
+    url(r'^raters/(?P<rater_id>\d+)$', lv.rater_detail, name='rater_detail'),
+    # url(r'^raters/(?P<pk>\d+)$',
+    #     lv.RaterDetailListView.as_view(),
+    #     name='rater_detail'),
+    url(r'^raters/(?P<rater_id>\d+)/edit-rating/(?P<movie_id>\d+)$',
         lv.edit_rating, name='edit_rating'),
-    url(r'^users/(?P<rater_id>\d+)/delete-rating/(?P<movie_id>\d+)$',
+    url(r'^raters/(?P<rater_id>\d+)/delete-rating/(?P<movie_id>\d+)$',
         lv.delete_rating, name='delete_rating'),
     url(r'^top/avg-ratings$', lv.TopMoviesByAvgListView.as_view(),
         name='top_by_avg_ratings'),
     url(r'^top/num-ratings$', lv.TopMoviesByNumListView.as_view(),
         name='top_by_num_ratings'),
-    # url(r'^top-20/highest-rated$', lv.top_20,
-    #     name='top_20_by_num_ratings'),
     url(r'^$', lv.TopMoviesByAvgListView, name='top')
 ]

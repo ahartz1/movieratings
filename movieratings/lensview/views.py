@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import Avg, Count
+# from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import generic
 from datetime import datetime
@@ -56,13 +58,41 @@ def movie_detail(request, movie_id):
                        'user_stars': user_stars})
 
 
-def user_detail(request, rater_id):
+# class RaterDetailListView(generic.ListView):
+#     model = Rater
+#     template_name = 'lensview/rater_detail.html'
+#     context_object_name = 'ratings'
+#     paginate_by = 20
+#
+#     def get_queryset(self):
+#         self.rater = Rater.objects.get(pk=self.kwargs['pk'])
+#         ratings = Rating.objects.order_by('-stars') \
+#             .prefetch_related('movie')
+#         self.num_rated = len(ratings)
+#         return ratings
+
+def rater_detail(request, rater_id):
     rater = get_object_or_404(Rater, pk=rater_id)
     ratings = rater.rating_set.all().order_by('-stars')
     ratings = ratings.prefetch_related('movie')
+    num_rated = ratings.count()
+
+    paginator = Paginator(ratings, 20)
+
+    page = request.GET.get('page')
+    try:
+        ratings = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        ratings = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        ratings = paginator.page(paginator.num_pages)
+
     return render(request,
                   'lensview/user_detail.html',
                   {'rater': rater,
+                   'num_rated': num_rated,
                    'ratings': ratings})
 
 
