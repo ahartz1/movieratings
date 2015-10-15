@@ -1,43 +1,43 @@
 {% extends "base.html" %}
 {% load bootstrap3 %}
 
-{% block title %}{{ view.rater.user.username }}{% endblock %}
+{% block title %}{{ rater.user.username }}{% endblock %}
 
 {% block content %}
 <div class="row">
   <div class="col-md-8 item-highlight top">
-    <h1>{{ view.rater.user.username }}</h1>
+    <h1>{{ rater.user.username }}</h1>
   </div>
 </div>
 <div class="row">
   <div class="col-md-1 item-highlight">
     <dl>
       <dt>Gender</dt>
-      <dd>{{ view.rater.gender }}</dd>
+      <dd>{{ rater.gender }}</dd>
     </dl>
   </div>
   <div class="col-md-1 item-highlight">
     <dl>
       <dt>Age</dt>
-      <dd>{{ view.rater.age }}</dd>
+      <dd>{{ rater.age }}</dd>
     </dl>
   </div>
   <div class="col-md-1 item-highlight">
     <dl>
       <dt>Occupation</dt>
-      <dd>{{ view.rater.occupation }}</dd>
+      <dd>{{ rater.occupation }}</dd>
     </dl>
   </div>
   <div class="col-md-5 item-highlight">
     <dl>
       <dt>Zipcode</dt>
-      <dd>{{ view.rater.zipcode }}</dd>
+      <dd>{{ rater.zipcode }}</dd>
     </dl>
   </div>
 </div>
 <div>
   <br>
-  <h3>{{ view.num_rated }} Rated Movie{{ view.num_rated|pluralize }}</h3>
+  <h3>{{ num_rated }} Movie{{ num_rated|pluralize }} Rated</h3>
 </div>
 <table class="table table-striped">
   <tr>
@@ -62,6 +62,20 @@
   {% endfor %}
 </table>
 <div class="text-center">
-  {% bootstrap_pagination page_obj pages_to_show=5 %}
+  <nav>
+    <ul class="pagination">
+      <li><a href="?page=1">&laquo;</a></li>
+      {% if ratings.has_previous %}
+        <li><a href="?page={{ ratings.previous_page_number }}">previous</a></li>
+      {% endif %}
+
+        <li class="active"><a href="?page={{ ratings.number }}">{{ ratings.number }}</a></li>
+
+      {% if ratings.has_next %}
+        <li><a href="?page={{ ratings.next_page_number }}">next</a></li>
+      {% endif %}
+      <li><a href="?page={{ ratings.paginator.num_pages }}">&raquo;</a></li>
+    </ul>
+  </nav>
 </div>
 {% endblock %}
