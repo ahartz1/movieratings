@@ -3,8 +3,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
-from django.db.models import Avg, Count
-# from django.http import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import generic
 from datetime import datetime
