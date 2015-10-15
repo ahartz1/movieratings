@@ -57,32 +57,32 @@ def movie_detail(request, movie_id):
                        'user_stars': user_stars})
 
 
-# class RaterDetailListView(generic.ListView):
-#     model = Rater
-#     template_name = 'lensview/rater_detail.html'
-#     context_object_name = 'ratings'
-#     paginate_by = 20
+class RaterDetailListView(generic.ListView):
+    model = Rater
+    template_name = 'lensview/slowrater_detail.html'
+    context_object_name = 'ratings'
+    paginate_by = 20
+
+    def get_queryset(self):
+        self.rater = Rater.objects.get(pk=self.kwargs['pk'])
+        ratings = self.rater.rating_set.order_by('-stars') \
+            .prefetch_related('movie')
+        self.num_rated = len(ratings)
+        return ratings
+
+# def rater_detail(request, rater_id):
+#     rater = get_object_or_404(Rater, pk=rater_id)
+#     ratings = rater.rating_set.all().order_by('-timestamp')
+#     ratings = ratings.prefetch_related('movie')
+#     num_rated = ratings.count()
 #
-#     def get_queryset(self):
-#         self.rater = Rater.objects.get(pk=self.kwargs['pk'])
-#         ratings = Rating.objects.order_by('-stars') \
-#             .prefetch_related('movie')
-#         self.num_rated = len(ratings)
-#         return ratings
-
-def rater_detail(request, rater_id):
-    rater = get_object_or_404(Rater, pk=rater_id)
-    ratings = rater.rating_set.all().order_by('-timestamp')
-    ratings = ratings.prefetch_related('movie')
-    num_rated = ratings.count()
-
-    request, ratings = apply_pagination(request, ratings, 20)
-
-    return render(request,
-                  'lensview/rater_detail.html',
-                  {'rater': rater,
-                   'num_rated': num_rated,
-                   'ratings': ratings})
+#     request, ratings = apply_pagination(request, ratings, 20)
+#
+#     return render(request,
+#                   'lensview/rater_detail.html',
+#                   {'rater': rater,
+#                    'num_rated': num_rated,
+#                    'ratings': ratings})
 
 
 def apply_pagination(request, set_of_things, num_per_page):
