@@ -57,4 +57,21 @@
     </tr>
   {% endfor %}
 </table>
+<div class="text-center">
+  <nav>
+    <ul class="pagination">
+      <li><a href="?page=1">&laquo;</a></li>
+      {% if ratings.has_previous %}
+        <li><a href="?page={{ ratings.previous_page_number }}">previous</a></li>
+      {% endif %}
+
+        <li class="active"><a href="?page={{ ratings.number }}">{{ ratings.number }}</a></li>
+
+      {% if ratings.has_next %}
+        <li><a href="?page={{ ratings.next_page_number }}">next</a></li>
+      {% endif %}
+      <li><a href="?page={{ ratings.paginator.num_pages }}">&raquo;</a></li>
+    </ul>
+  </nav>
+</div>
 {% endblock %}

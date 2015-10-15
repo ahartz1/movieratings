@@ -30,8 +30,9 @@ def movie_detail(request, movie_id):
                                  messages.ERROR,
                                  'Star rating must be between 1 and 5')
     movie = get_object_or_404(Movie, pk=movie_id)
-    ratings = movie.rating_set.all()
+    ratings = movie.rating_set.all().order_by('-timestamp')
     ratings = ratings.prefetch_related('rater__user')
+    request, ratings = apply_pagination(request, ratings, 20)
     user_stars = None
     if request.user.is_authenticated():
         try:
@@ -73,27 +74,32 @@ def movie_detail(request, movie_id):
 
 def rater_detail(request, rater_id):
     rater = get_object_or_404(Rater, pk=rater_id)
-    ratings = rater.rating_set.all().order_by('-stars')
+    ratings = rater.rating_set.all().order_by('-timestamp')
     ratings = ratings.prefetch_related('movie')
     num_rated = ratings.count()
 
-    paginator = Paginator(ratings, 20)
-
-    page = request.GET.get('page')
-    try:
-        ratings = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        ratings = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        ratings = paginator.page(paginator.num_pages)
+    request, ratings = apply_pagination(request, ratings, 20)
 
     return render(request,
                   'lensview/rater_detail.html',
                   {'rater': rater,
                    'num_rated': num_rated,
                    'ratings': ratings})
+
+
+def apply_pagination(request, set_of_things, num_per_page):
+    paginator = Paginator(set_of_things, num_per_page)
+
+    page = request.GET.get('page')
+    try:
+        set_of_things = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        set_of_things = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        set_of_things = paginator.page(paginator.num_pages)
+    return request, set_of_things
 
 
 @login_required
