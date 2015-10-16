@@ -49,7 +49,7 @@ class Rater(models.Model):
 
     gender = models.CharField(max_length=1, choices=GENDER)
     age = models.SmallIntegerField(choices=AGE)
-    occupation = models.CharField(max_length=255, choices=OCCUPATION)
+    occupation = models.SmallIntegerField(choices=OCCUPATION)
     zipcode = models.CharField(max_length=10)
     user = models.OneToOneField(User, null=True)
 

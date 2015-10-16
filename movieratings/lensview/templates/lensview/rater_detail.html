@@ -13,19 +13,19 @@
   <div class="col-md-1 item-highlight">
     <dl>
       <dt>Gender</dt>
-      <dd>{{ view.rater.gender }}</dd>
+      <dd>{{ view.rater.get_gender_display }}</dd>
     </dl>
   </div>
   <div class="col-md-1 item-highlight">
     <dl>
       <dt>Age</dt>
-      <dd>{{ view.rater.age }}</dd>
+      <dd>{{ view.rater.get_age_display }}</dd>
     </dl>
   </div>
   <div class="col-md-1 item-highlight">
     <dl>
       <dt>Occupation</dt>
-      <dd>{{ view.rater.occupation }}</dd>
+      <dd>{{ view.rater.get_occupation_display }}</dd>
     </dl>
   </div>
   <div class="col-md-5 item-highlight">
@@ -50,8 +50,8 @@
     <tr>
       <td><b><a href="{% url 'movie_detail' rating.movie.pk %}">{{ rating.movie.title }}</a></b></td>
       <td><b>{{ rating.stars }}</b>&#9733;
-      {% if rater == user.rater and user.is_authenticated %}
-        <a href="{% url 'edit_rating' rater.pk rating.movie.pk %}"> Edit</a> | <a href="{% url 'delete_rating' user.rater.pk rating.movie.pk %}">Delete</a>
+      {% if view.rater == user.rater and user.is_authenticated %}
+        <a href="{% url 'edit_rating' view.rater.pk rating.movie.pk %}"> Edit</a> | <a href="{% url 'delete_rating' user.rater.pk rating.movie.pk %}">Delete</a>
       {% endif %}
       </td>
       <td class="text-muted">{{ rating.timestamp|date:"d M Y" }}</td>

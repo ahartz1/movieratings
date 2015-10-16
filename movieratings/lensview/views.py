@@ -59,7 +59,7 @@ def movie_detail(request, movie_id):
 
 class RaterDetailListView(generic.ListView):
     model = Rater
-    template_name = 'lensview/slowrater_detail.html'
+    template_name = 'lensview/rater_detail.html'
     context_object_name = 'ratings'
     paginate_by = 20
 
@@ -182,7 +182,7 @@ def user_login(request):
         if user is not None and user.is_active:
             login(request, user)
             # ratings = user.rater.rating_set.all().order_by('-stars')
-            return redirect(reverse('user_detail', args=[user.rater.pk]))
+            return redirect(reverse('rater_detail', args=[user.rater.pk]))
         else:
             return render(request,
                           'lensview/user_login.html',

@@ -30,5 +30,5 @@ urlpatterns = [
         name='top_by_avg_ratings'),
     url(r'^top/num-ratings$', lv.TopMoviesByNumListView.as_view(),
         name='top_by_num_ratings'),
-    url(r'^$', lv.TopMoviesByAvgListView, name='top')
+    url(r'^$', lv.TopMoviesByAvgListView.as_view(), name='top')
 ]
